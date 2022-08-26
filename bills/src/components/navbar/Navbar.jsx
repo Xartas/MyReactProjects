@@ -12,8 +12,8 @@ function Navbar() {
         <Link to="/credits">
           <button className="menuItem">Kredyty</button>
         </Link>
-        <Link to="/">
-          <button className="menuItem">Wyloguj</button>
+        <Link to="/login">
+          <button className="menuItem">Logowanie</button>
         </Link>
       </div>
     </div>
