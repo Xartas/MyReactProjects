@@ -2,10 +2,10 @@ import React from 'react'
 import "./Credits.scss";
 import Navbar from '../../components/navbar/Navbar';
 
-function Credits() {
+function Credits({auth}) {
   return (
     <React.Fragment>
-        <Navbar/>
+        <Navbar auth={auth}/>
         <div className="container">Kredyty</div>
     </React.Fragment>
   )

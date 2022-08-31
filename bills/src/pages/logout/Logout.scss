@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+
+  body {
+    background-color: #222;
+    color: #ccc;
+    font-size: 20px;
+    padding: 10px;
+
+    .logoutWrapper {
+      height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .logutMessage {
+        color: #00897b;
+        display: block;
+        
+        p {
+            color: #ccc;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 25px;
+        }
+      }
+    }
+  }
+}

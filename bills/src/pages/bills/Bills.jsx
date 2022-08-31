@@ -2,10 +2,10 @@ import React from 'react'
 import "./Bills.scss"
 import Navbar from './../../components/navbar/Navbar';
 
-function Bills() {
+function Bills({auth}) {
   return (
     <React.Fragment>
-        <Navbar/>
+        <Navbar auth={auth}/>
         <div className="container">Rachunki</div>
     </React.Fragment>
   )

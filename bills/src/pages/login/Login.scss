@@ -8,55 +8,63 @@
     font-size: 20px;
     padding: 10px;
 
-    .loginForm {
-      width: fit-content;
-      border: 1px solid #00897b;
-      border-radius: 5px;
+    .loginWrapper {
+      height: 80vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
-
     
-      .inputContainer{
-        padding: 5px;
+      .loginForm {
+        width: fit-content;
         border: 1px solid #00897b;
-        margin-bottom: 20px;
         border-radius: 5px;
-        
-        .input {
-            margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+  
+      
+        .inputContainer{
+          padding: 5px;
+          border: 2px solid #00897b;
+          margin-bottom: 20px;
+          border-radius: 5px;
+          
+          .input {
+            width: 300px;  
             font-size: 18px;
             background-color: transparent;
             border: none;
             color:#ccc;
-            text-decoration: none;
-        
-            &::selection{
-                
-                border: 1px solid #64ffdb;
-            }
-        
-        }
-      }
-      
-
-      .loginBtn {
-        width: 100px;
-        height: 30px;
-        background-color: #64ffdb;
-        border: 1px solid #00897b;
-        border-radius: 5px;
-        font-size: 15px;
-        color: #00897b;
-        cursor: pointer;
-
-        &:hover {
-          background-color: #00897b;
+            outline: none;                    
+          }
+        }      
+  
+        .loginBtn {
+          width: 100px;
+          height: 30px;
+          background-color: #64ffdb;
           border: 1px solid #00897b;
-          color: #ccc;
+          border-radius: 5px;
+          font-size: 15px;
+          color: #00897b;
+          cursor: pointer;
+  
+          &:hover {
+            background-color: #00897b;
+            border: 1px solid #00897b;
+            color: #ccc;
+          }
+        }
+
+        .errorMsg {
+          padding: 10px;
+          padding-bottom: 0px;
+          color: #f44336;
+          font-weight: 700;
+          font-size: 12px;
         }
       }
-    }
+    }  
   }
 }

@@ -1,18 +1,45 @@
-import React from "react";
-import { FormGroup, TextField } from "@mui/material";
+import React, { useState } from "react";
+import { FormGroup } from "@mui/material";
 import "./Login.scss";
-import Navbar from '../../components/navbar/Navbar';
+import { signInWithEmailAndPassword } from "firebase/auth";
 
-function Login() {
+function Login({ auth }) {
+  const [email, setEmail] = useState("seba.wrona@gmail.com");
+  const [password, setPassword] = useState("123qwe");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const logInToApp = () => {
+    signInWithEmailAndPassword(auth, email, password).catch((e) =>
+      setErrorMsg(e.code)
+    );
+  };
+
   return (
     <React.Fragment>
-      <Navbar />
-      <FormGroup className="loginForm">
-        <div className="inputContainer">
-        <input className="input" placeholder="Adres e-mail" /></div>
-        <div className="inputContainer"><input className="input" placeholder="Hasło" /></div>
-        <button className="loginBtn">Zaloguj</button>
-      </FormGroup>
+      <div className="loginWrapper">
+        <FormGroup className="loginForm">
+          <div className="inputContainer">
+            <input
+              className="input"
+              placeholder="Adres e-mail"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="inputContainer">
+            <input
+              className="input"
+              placeholder="Hasło"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <button className="loginBtn" onClick={logInToApp}>
+            Zaloguj
+          </button>
+          <span className="errorMsg">{errorMsg}</span>
+        </FormGroup>
+      </div>
     </React.Fragment>
   );
 }
