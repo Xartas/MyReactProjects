@@ -19,6 +19,9 @@ function Navbar({ auth }) {
         <Link to="/credits">
           <button className="menuItem">Kredyty</button>
         </Link>
+        <Link to="/admin">
+          <button className="menuItem">Admin</button>
+        </Link>
         <Link to="/logout">
           <button className="menuItem" onClick={logOutUser}>
             Wyloguj
