@@ -10,9 +10,7 @@ function Bills({ auth, user, billingPeriods }) {
     return <Navigate to="/login" />;
   }
 
-  useEffect(() => {
-    console.log(selectedPeriod);
-  }, [selectedPeriod]);
+  useEffect(() => {}, [selectedPeriod]);
 
   return (
     <React.Fragment>

@@ -1,3 +1,4 @@
+import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Admin from "./pages/Admin/Admin";
@@ -9,8 +10,10 @@ import { billingPeriodsList } from "./utils/utils";
 
 function App({ auth, firestore }) {
   const [user, setUser] = useState(null);
+  const [users, setUsers] = useState(null);
   const [isDbInitialized, setIsDbInitialized] = useState(false);
   const [billingPeriods, setBillingPeriods] = useState([]);
+  const usersCollectionRef = collection(firestore, "users");
 
   useEffect(() => {
     return auth.onAuthStateChanged((user) => {
@@ -21,6 +24,17 @@ function App({ auth, firestore }) {
     });
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    const getUsers = async () => {
+      const data = await getDocs(usersCollectionRef);
+      setUsers(data.docs.map((user) => ({ ...user.data(), id: user.id })));
+    };
+
+    getUsers();
+  }, []);
+
+  console.log(user);
 
   useEffect(() => {
     setBillingPeriods(billingPeriodsList);
