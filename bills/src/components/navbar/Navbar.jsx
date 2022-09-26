@@ -2,14 +2,14 @@ import React from "react";
 import "./Navbar.scss";
 import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
+import { useFirebase } from "../../contexts/FirebaseContext";
 
-function Navbar({ auth }) {
+function Navbar() {
+  const firebase = useFirebase();
   const logOutUser = () => {
-    signOut(auth);
-    console.log("Wylogowanie");
+    signOut(firebase.auth);
   };
 
-  console.log(auth);
   return (
     <div className="navbar">
       <div className="menu">

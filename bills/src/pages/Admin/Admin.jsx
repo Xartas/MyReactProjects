@@ -1,24 +1,9 @@
 import React from "react";
 import "./Admin.scss";
-import Navbar from "./../../components/navbar/Navbar";
-import { Navigate } from "react-router-dom";
 
-function Admin({ auth, user, billingPeriods }) {
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
-
-  const toggleActive = (periodId) => {
-    billingPeriods.find((period) => {
-      period.id === periodId && (period.isActive = !period.isActive);
-    });
-  };
-
-  console.log(billingPeriods);
-
+function Admin() {
   return (
     <React.Fragment>
-      <Navbar auth={auth} />
       <div className="wrapper">
         <table>
           <thead>
@@ -30,7 +15,7 @@ function Admin({ auth, user, billingPeriods }) {
               <th>IsActive</th>
             </tr>
           </thead>
-          <tbody>
+          {/* <tbody>
             {billingPeriods.map((period) => (
               <tr key={period.id}>
                 {Object.keys(period).map((key) => {
@@ -50,7 +35,7 @@ function Admin({ auth, user, billingPeriods }) {
                 })}
               </tr>
             ))}
-          </tbody>
+          </tbody> */}
         </table>
       </div>
     </React.Fragment>

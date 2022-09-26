@@ -1,4 +1,4 @@
-export const years = [2022, 2023];
+export const years = ["2022", "2023"];
 
 export const months = [
   {

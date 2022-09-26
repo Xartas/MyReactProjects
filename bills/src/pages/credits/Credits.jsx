@@ -1,14 +1,12 @@
-import React from 'react'
+import React from "react";
 import "./Credits.scss";
-import Navbar from '../../components/navbar/Navbar';
 
-function Credits({auth}) {
+function Credits() {
   return (
     <React.Fragment>
-        <Navbar auth={auth}/>
-        <div className="container">Kredyty</div>
+      <div className="container">Kredyty</div>
     </React.Fragment>
-  )
+  );
 }
 
-export default Credits
+export default Credits;
