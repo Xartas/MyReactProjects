@@ -7,8 +7,11 @@ import Credits from "./pages/credits/Credits";
 import Login from "./pages/login/Login";
 import Logout from "./pages/logout/Logout";
 import AuthWrapper from "./components/AuthWrapper";
+import { useState } from "react";
 
 function App() {
+  const [billingPeriods, setBillingPeriods] = useState([]);
+
   return (
     <FirebaseProvider>
       <BrowserRouter>
@@ -35,7 +38,10 @@ function App() {
             path="/admin"
             element={
               <AuthWrapper>
-                <Admin />
+                <Admin
+                  billingPeriods={billingPeriods}
+                  setBillingPeriods={setBillingPeriods}
+                />
               </AuthWrapper>
             }
           />

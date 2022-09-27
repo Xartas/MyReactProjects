@@ -23,6 +23,7 @@ function Dancers() {
   const [isEditDancerMode, setEditDancerMode] = useState(false);
   const [editedDancerId, setEditDancerId] = useState("");
   const [filterValue, setFilterValue] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [listItemsVisibleLimit, setListItemsVisibleLimit] = useState(10);
 
   const firebase = useFirebase();
