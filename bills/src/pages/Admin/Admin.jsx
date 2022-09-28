@@ -96,8 +96,6 @@ function Admin() {
     });
   };
 
-  console.log(paymentTemplates);
-
   return (
     <React.Fragment>
       <div className="creatingPeriodsContainer">
