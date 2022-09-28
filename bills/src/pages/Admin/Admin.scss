@@ -8,14 +8,32 @@
     font-size: 20px;
     padding: 10px;
 
-    .wrapper {
+    .creatingPeriodsContainer {
+      border: solid 1px #00897b;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      line-height: 20px;
+
+      select {
+        font-size: 15px;
+      }
+
+      button {
+        padding: 3px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-left: 10px;
+      }
+    }
+
+    .tableWrapper {
       padding-top: 10px;
 
       table {
         border: 2px solid #00897b;
 
         thead {
-          
           tr {
             border-top: 2px solid #00897b;
           }
