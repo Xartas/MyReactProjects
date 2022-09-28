@@ -25,6 +25,7 @@ function Admin() {
     firebase.firestore,
     "users/" + firebase.user.uid + "/billingPeriods"
   );
+
   const paymentTemplatesRef = collection(firebase.firestore, "templates");
 
   useEffect(() => {
@@ -74,6 +75,24 @@ function Admin() {
     );
     updateDoc(periodDoc, {
       ...period,
+    });
+  };
+
+  const createBillsToPeriodFromTemplates = (period) => {
+    const billsRef = collection(
+      firebase.firestore,
+      "users/" + firebase.user.uid + "/billingPeriods/" + period.id + "/bills"
+    );
+
+    const bills = paymentTemplates.map((template) => ({
+      contractor: template.contractor,
+      name: template.name,
+      amount: template.amount,
+      isPaid: false,
+    }));
+
+    bills.map((bill) => {
+      addDoc(billsRef, bill);
     });
   };
 
@@ -127,7 +146,11 @@ function Admin() {
                   />
                 </td>
                 <td>
-                  <button>Importuj płatności</button>
+                  <button
+                    onClick={() => createBillsToPeriodFromTemplates(period)}
+                  >
+                    Importuj płatności
+                  </button>
                 </td>
               </tr>
             ))}
