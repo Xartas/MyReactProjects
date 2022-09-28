@@ -17,6 +17,7 @@ function Admin() {
   const [billingYears, setBillingYears] = useState([]);
   const [billingPeriods, setBillingPeriods] = useState([]);
   const [activeYear, setActiveYear] = useState("");
+  const [paymentTemplates, setPaymentTemplates] = useState([]);
   const firebase = useFirebase();
 
   const yearsRef = collection(firebase.firestore, "billingYears");
@@ -24,6 +25,7 @@ function Admin() {
     firebase.firestore,
     "users/" + firebase.user.uid + "/billingPeriods"
   );
+  const paymentTemplatesRef = collection(firebase.firestore, "templates");
 
   useEffect(() => {
     onSnapshot(yearsRef, (snapshot) => {
@@ -39,10 +41,16 @@ function Admin() {
         id: doc.id,
         ...doc.data(),
       }));
-      console.log(periods);
       setBillingPeriods(sortPeriodsByMonth(periods));
     });
   }, [activeYear]);
+
+  useEffect(() => {
+    onSnapshot(paymentTemplatesRef, (snapshot) => {
+      const templates = snapshot.docs.map((doc) => doc.data());
+      setPaymentTemplates(templates);
+    });
+  }, []);
 
   const createBillingPeriods = (year) => {
     const periods = months.map((month) => ({
@@ -52,7 +60,6 @@ function Admin() {
       name: month.name,
       isActive: false,
     }));
-    console.log(periods);
     periods.map((period) => {
       addDoc(billingPeriodsRef, period);
     });
@@ -69,6 +76,8 @@ function Admin() {
       ...period,
     });
   };
+
+  console.log(paymentTemplates);
 
   return (
     <React.Fragment>
@@ -100,6 +109,7 @@ function Admin() {
               <th>Miesiąc</th>
               <th>Nazwa</th>
               <th>Aktywny</th>
+              <th>Akcje</th>
             </tr>
           </thead>
           <tbody>
@@ -115,6 +125,9 @@ function Admin() {
                     onChange={() => toggleActive(period)}
                     defaultChecked={period.isActive ? true : false}
                   />
+                </td>
+                <td>
+                  <button>Importuj płatności</button>
                 </td>
               </tr>
             ))}
