@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import "./Credits.scss";
 
 function Credits() {
   return (
-    <div>Credits</div>
-  )
+    <React.Fragment>
+      <div className="container">Kredyty</div>
+    </React.Fragment>
+  );
 }
 
-export default Credits
+export default Credits;

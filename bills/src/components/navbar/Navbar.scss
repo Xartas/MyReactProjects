@@ -1,0 +1,28 @@
+.navbar {
+  border-bottom: 1px solid #00897b;
+
+  .menu {
+    display: flex;
+    align-content: center;
+    gap: 30px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+
+    .menuItem {
+      width: 120px;
+      height: 40px;
+      background-color: #64ffdb;
+      border: 1px solid #00897b;
+      border-radius: 5px;
+      font-size: 20px;
+      color: #00897b;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #00897b;
+        border: 1px solid #00897b;
+        color: #ccc;
+      }
+    }
+  }
+}
