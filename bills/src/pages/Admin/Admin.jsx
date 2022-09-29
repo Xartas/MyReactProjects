@@ -7,6 +7,7 @@ import {
   doc,
   addDoc,
   updateDoc,
+  deleteDoc,
   query,
   where,
 } from "firebase/firestore";
@@ -96,6 +97,15 @@ function Admin() {
     });
   };
 
+  const deletePeriod = (periodId) => {
+    const periodDoc = doc(
+      firebase.firestore,
+      "users/" + firebase.user.uid + "/billingPeriods",
+      periodId
+    );
+    deleteDoc(periodDoc);
+  };
+
   return (
     <React.Fragment>
       <div className="creatingPeriodsContainer">
@@ -112,7 +122,10 @@ function Admin() {
             </option>
           ))}
         </select>
-        <button onClick={() => createBillingPeriods(activeYear)}>
+        <button
+          onClick={() => createBillingPeriods(activeYear)}
+          disabled={activeYear ? false : true}
+        >
           Stwórz okresy rozliczeniowe
         </button>
       </div>
@@ -149,6 +162,7 @@ function Admin() {
                   >
                     Importuj płatności
                   </button>
+                  <button onClick={() => deletePeriod(period.id)}>Usuń</button>
                 </td>
               </tr>
             ))}

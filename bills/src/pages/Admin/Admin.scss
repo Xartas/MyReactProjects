@@ -61,9 +61,13 @@
             button {
               padding: 3px;
               font-size: 12px;
-              font-weight: 600;
+              font-weight: 600;              
+            }
+
+            button + button {
               margin-left: 10px;
             }
+
           }
 
           td:last-child {
