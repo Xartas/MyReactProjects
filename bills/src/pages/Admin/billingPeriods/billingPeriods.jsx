@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 import { months } from "../../../utils/utils";
 import { sortPeriodsByMonth } from "../../../utils/features";
+import { DataTableView } from "./../../../components/common/DataTableView";
 
 export function BillingPeriods() {
   const [billingYears, setBillingYears] = useState([]);
@@ -144,6 +145,21 @@ export function BillingPeriods() {
     deleteDoc(periodDoc);
   };
 
+  const headers = [
+    { name: "ID Okresu", key: "billingPeriod" },
+    { name: "Rok", key: "year" },
+    { name: "Miesiąc", key: "month" },
+    { name: "Nazwa", key: "name" },
+    { name: "Akcje", key: "actions" },
+  ];
+  const actions = [
+    { name: "Usuń", onClickEvent: deletePeriod },
+    {
+      name: "Import płatności",
+      onClickEvent: createBillsToPeriodFromTemplates,
+    },
+  ];
+
   return (
     <React.Fragment>
       <div className="creatingPeriodsContainer">
@@ -175,7 +191,13 @@ export function BillingPeriods() {
         </button>
       </div>
 
-      <div className="tableWrapper">
+      <DataTableView
+        headers={headers}
+        data={billingPeriods}
+        actions={actions}
+      />
+
+      {/* <div className="tableWrapper">
         <table>
           <thead>
             <tr>
@@ -213,7 +235,7 @@ export function BillingPeriods() {
             ))}
           </tbody>
         </table>
-      </div>
+      </div> */}
     </React.Fragment>
   );
 }

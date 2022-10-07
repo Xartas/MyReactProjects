@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useFirebase } from "../../../contexts/FirebaseContext";
-import {
-  collection,
-  onSnapshot,
-  addDoc,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
+import { collection, onSnapshot, doc, deleteDoc } from "firebase/firestore";
 import { sortYears } from "../../../utils/features";
 import { DataTableView } from "../../../components/common/DataTableView";
+import { YearCreate } from "./YearCreate";
 
-export function BillingYears() {
+export function YearsList() {
   const [billingYears, setBillingYears] = useState([]);
   const firebase = useFirebase();
   const yearsRef = collection(firebase.firestore, "billingYears");
@@ -29,17 +24,8 @@ export function BillingYears() {
     const numberOfYears = billingYears.map((billingYear) =>
       Number(billingYear.year)
     );
-    const lastYear = numberOfYears.reduce((a, b) => Math.max(a, b));
+    const lastYear = numberOfYears.reduce((a, b) => Math.max(a, b), 0);
     return lastYear;
-  };
-
-  const addNewYear = () => {
-    const lastYear = getLastYear();
-    const newYear = {
-      year: (lastYear + 1).toString(),
-      billsImported: false,
-    };
-    addDoc(yearsRef, newYear);
   };
 
   const deleteYear = (yearId) => {
@@ -53,38 +39,12 @@ export function BillingYears() {
     { name: "Rok", key: "year" },
     { name: "Akcje", key: "actions" },
   ];
-  const actions = [{ name: "Usuń", onClickEvent: deleteYear }];
+  const actions = [{ label: "Usuń", actionEvent: deleteYear }];
 
   return (
     <React.Fragment>
-      <div className="creatingPeriodsContainer">
-        <button onClick={() => addNewYear()}>
-          Dodaj kolejny rok rozliczeniowy
-        </button>
-      </div>
-
+      <YearCreate lastYear={getLastYear()} />
       <DataTableView headers={headers} data={billingYears} actions={actions} />
-
-      {/* <div className="tableWrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Rok</th>
-              <th>Akcje</th>
-            </tr>
-          </thead>
-          <tbody>
-            {billingYears.map((year) => (
-              <tr key={year.id}>
-                <td key={year.id + "_year"}>{year.year}</td>
-                <td>
-                  <button onClick={() => deleteYear(year.id)}>Usuń</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div> */}
     </React.Fragment>
   );
 }

@@ -7,9 +7,9 @@ import Login from "./pages/login/Login";
 import Logout from "./pages/logout/Logout";
 import AuthWrapper from "./components/AuthWrapper";
 import { Subnavbar } from "./components/admin/subnavbar/subnavbar";
-import { BillingYears } from "./pages/Admin/billingYears/billingYears";
-import { BillingPeriods } from "./pages/Admin/billingPeriods/billingPeriods";
 import { BillsTemplates } from "./pages/Admin/billsTemplates/billsTemplates";
+import { YearsList } from "./components/admin/years/YearsList";
+import PeriodsList from "./components/admin/periods/PeriodsList";
 
 function App() {
   return (
@@ -40,8 +40,8 @@ function App() {
               <AuthWrapper>
                 <Subnavbar />
                 <Routes>
-                  <Route path="/billingYears" element={<BillingYears />} />
-                  <Route path="/billingPeriods" element={<BillingPeriods />} />
+                  <Route path="/billingYears" element={<YearsList />} />
+                  <Route path="/billingPeriods" element={<PeriodsList />} />
                   <Route path="/billsTemplates" element={<BillsTemplates />} />
                 </Routes>
               </AuthWrapper>
