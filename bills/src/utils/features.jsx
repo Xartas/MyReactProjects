@@ -20,3 +20,14 @@ export const sortYears = (years) => {
   }
   return years;
 };
+
+export const sortTemplates = (templates) => {
+  for (let i = 0; i < templates.length; i++) {
+    for (let j = 0; j < templates.length - i - 1; j++) {
+      if (templates[j + 1].name < templates[j].name) {
+        [templates[j + 1], templates[j]] = [templates[j], templates[j + 1]];
+      }
+    }
+  }
+  return templates;
+};
