@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useFirebase } from "../../contexts/FirebaseContext";
-import "./Admin.scss";
+import { useFirebase } from "../../../contexts/FirebaseContext";
+import "./billingPeriods.scss";
 import {
   collection,
   onSnapshot,
@@ -11,10 +11,10 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { months } from "../../utils/utils";
-import { sortPeriodsByMonth } from "../../utils/features";
+import { months } from "../../../utils/utils";
+import { sortPeriodsByMonth } from "../../../utils/features";
 
-function Admin() {
+export function BillingPeriods() {
   const [billingYears, setBillingYears] = useState([]);
   const [billingPeriods, setBillingPeriods] = useState([]);
   const [activeYear, setActiveYear] = useState("");
@@ -31,7 +31,10 @@ function Admin() {
 
   useEffect(() => {
     onSnapshot(yearsRef, (snapshot) => {
-      const years = snapshot.docs.map((doc) => doc.data().year);
+      const years = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
       setBillingYears(years);
     });
   }, []);
@@ -65,6 +68,34 @@ function Admin() {
     periods.map((period) => {
       addDoc(billingPeriodsRef, period);
     });
+    toggleBillsImportStatus(year);
+  };
+
+  const toggleBillsImportStatus = (year) => {
+    const yearToUpdate = billingYears.find(
+      (billingYear) => billingYear.year === year
+    );
+    yearToUpdate.billsImported = !yearToUpdate.billsImported;
+    const yearDoc = doc(firebase.firestore, "billingYears", yearToUpdate.id);
+    console.log(yearDoc);
+    updateDoc(yearDoc, {
+      year: yearToUpdate.year,
+      billsImported: yearToUpdate.billsImported,
+    });
+  };
+
+  const deleteAll = (year) => {
+    billingPeriods.map((bp) => {
+      if (bp.year === year) {
+        const bpDoc = doc(
+          firebase.firestore,
+          "users/" + firebase.user.uid + "/billingPeriods",
+          bp.id
+        );
+        deleteDoc(bpDoc);
+      }
+    });
+    toggleBillsImportStatus(year);
   };
 
   const toggleActive = (period) => {
@@ -77,6 +108,13 @@ function Admin() {
     updateDoc(periodDoc, {
       ...period,
     });
+  };
+
+  const disableImportBillsFromTemplates = () => {
+    const year = billingYears.find(
+      (billingYear) => billingYear.year === activeYear
+    );
+    return year ? year.billsImported : true;
   };
 
   const createBillsToPeriodFromTemplates = (period) => {
@@ -117,18 +155,26 @@ function Admin() {
             Wybierz rok
           </option>
           {billingYears.map((year) => (
-            <option key={year} value={year}>
-              {year}
+            <option key={year.year} value={year.year}>
+              {year.year}
             </option>
           ))}
         </select>
         <button
           onClick={() => createBillingPeriods(activeYear)}
-          disabled={activeYear ? false : true}
+          disabled={
+            !activeYear || activeYear === ""
+              ? true
+              : disableImportBillsFromTemplates()
+          }
         >
           Stwórz okresy rozliczeniowe
         </button>
+        <button onClick={() => deleteAll(activeYear)}>
+          Usuń wszystkie okresy
+        </button>
       </div>
+
       <div className="tableWrapper">
         <table>
           <thead>
@@ -171,5 +217,3 @@ function Admin() {
     </React.Fragment>
   );
 }
-
-export default Admin;

@@ -1,17 +1,17 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { FirebaseProvider } from "./contexts/FirebaseContext";
 import Navbar from "./components/navbar/Navbar";
-import Admin from "./pages/Admin/Admin";
 import Bills from "./pages/bills/Bills";
 import Credits from "./pages/credits/Credits";
 import Login from "./pages/login/Login";
 import Logout from "./pages/logout/Logout";
 import AuthWrapper from "./components/AuthWrapper";
-import { useState } from "react";
+import { Subnavbar } from "./components/admin/subnavbar/subnavbar";
+import { BillingYears } from "./pages/Admin/billingYears/billingYears";
+import { BillingPeriods } from "./pages/Admin/billingPeriods/billingPeriods";
+import { BillsTemplates } from "./pages/Admin/billsTemplates/billsTemplates";
 
 function App() {
-  const [billingPeriods, setBillingPeriods] = useState([]);
-
   return (
     <FirebaseProvider>
       <BrowserRouter>
@@ -35,13 +35,15 @@ function App() {
             }
           />
           <Route
-            path="/admin"
+            path="/admin/*"
             element={
               <AuthWrapper>
-                <Admin
-                  billingPeriods={billingPeriods}
-                  setBillingPeriods={setBillingPeriods}
-                />
+                <Subnavbar />
+                <Routes>
+                  <Route path="/billingYears" element={<BillingYears />} />
+                  <Route path="/billingPeriods" element={<BillingPeriods />} />
+                  <Route path="/billsTemplates" element={<BillsTemplates />} />
+                </Routes>
               </AuthWrapper>
             }
           />
