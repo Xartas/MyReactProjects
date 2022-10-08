@@ -12,6 +12,7 @@ import {
 import { useFirebase } from "../../contexts/FirebaseContext";
 import { sortPeriodsByMonth } from "../../utils/features";
 import { DataTableView } from "../../components/common/DataTableView";
+import { billsConstant } from "../../utils/utils";
 import AddBill from "../../components/admin/templates/TemplateCreate";
 
 function Bills() {
@@ -36,7 +37,7 @@ function Bills() {
   useEffect(() => {
     onSnapshot(yearsRef, (snapshot) => {
       const years = snapshot.docs.map((doc) => doc.data().year);
-      setBillingYears(years);
+      setBillingYears(years.sort());
     });
   }, []);
 
@@ -90,32 +91,6 @@ function Bills() {
     deleteDoc(billDoc);
   };
 
-  const headers = [
-    { name: "Nazwa", key: "name" },
-    { name: "Kontrahent", key: "contractor" },
-    { name: "Kwota", key: "amount" },
-    { name: "Opłacony", key: "isPaid" },
-    { name: "Akcje", key: "actions" },
-  ];
-
-  const actions = [
-    {
-      label: "Dodaj płatność",
-      key: "addItem",
-      editModeStatus: false,
-    },
-    {
-      label: "Zapisz",
-      key: "saveItem",
-      editModeStatus: true,
-    },
-    {
-      label: "Anuluj",
-      key: "cancel",
-      editModeStatus: true,
-    },
-  ];
-
   const tableActions = [
     {
       label: "Edytuj",
@@ -126,15 +101,6 @@ function Bills() {
       actionEvent: deleteBill,
     },
   ];
-
-  const newBillPlaceholders = {
-    name: "Nazwa płatności",
-    contractor: "Kontrahent",
-    amount: "Kwota",
-  };
-
-  console.log(billsList);
-  console.log(billingPeriods);
 
   return (
     <React.Fragment>
@@ -173,16 +139,16 @@ function Bills() {
           editModeActive={editModeActive}
           setEditModeActive={setEditModeActive}
           selectedItem={billsList.find((bill) => bill.id === selectedBillId)}
-          placeholders={newBillPlaceholders}
+          placeholders={billsConstant.newBillPlaceholders}
           itemType="bill"
           refPath={billsRefPath}
-          actions={actions}
+          actions={billsConstant.addBillActions}
         />
       )}
 
       {activePeriodId && (
         <DataTableView
-          headers={headers}
+          headers={billsConstant.tableHeaders}
           data={billsList}
           actions={tableActions}
           togglePaidStatus={togglePaidStatus}

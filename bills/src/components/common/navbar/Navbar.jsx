@@ -2,7 +2,7 @@ import React from "react";
 import "./Navbar.scss";
 import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
-import { useFirebase } from "../../contexts/FirebaseContext";
+import { useFirebase } from "../../../contexts/FirebaseContext";
 
 function Navbar() {
   const firebase = useFirebase();

@@ -1,4 +1,5 @@
 import React from "react";
+import "./navbar/Navbar.scss";
 
 export function DataTableView({ headers, data, actions, togglePaidStatus }) {
   return (

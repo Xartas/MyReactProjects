@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { FirebaseProvider } from "./contexts/FirebaseContext";
-import Navbar from "./components/navbar/Navbar";
+import Navbar from "./components/common/navbar/Navbar";
 import Bills from "./pages/bills/Bills";
 import Credits from "./pages/credits/Credits";
 import Login from "./pages/login/Login";

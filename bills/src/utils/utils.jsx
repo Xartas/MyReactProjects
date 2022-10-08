@@ -48,3 +48,36 @@ export const months = [
     name: "Grudzień",
   },
 ];
+
+//------------------------- STAŁE DLA RACHUNKÓW -----------------------------
+export const billsConstant = {
+  tableHeaders: [
+    { name: "Nazwa", key: "name" },
+    { name: "Kontrahent", key: "contractor" },
+    { name: "Kwota", key: "amount" },
+    { name: "Opłacony", key: "isPaid" },
+    { name: "Akcje", key: "actions" },
+  ],
+  addBillActions: [
+    {
+      label: "Dodaj płatność",
+      key: "addItem",
+      editModeStatus: false,
+    },
+    {
+      label: "Zapisz",
+      key: "saveItem",
+      editModeStatus: true,
+    },
+    {
+      label: "Anuluj",
+      key: "cancel",
+      editModeStatus: true,
+    },
+  ],
+  newBillPlaceholders: {
+    name: "Nazwa płatności",
+    contractor: "Kontrahent",
+    amount: "Kwota",
+  },
+};
