@@ -1,9 +1,6 @@
 import React from "react";
 
 export function DataTableView({ headers, data, actions }) {
-  console.log(headers);
-  console.log(data);
-  console.log(actions);
   return (
     <React.Fragment>
       <div className="tableWrapper">
@@ -17,15 +14,17 @@ export function DataTableView({ headers, data, actions }) {
           </thead>
           <tbody>
             {data.map((dataObject, i) => (
-              <tr key={dataObject.id}>
+              <tr key={dataObject.id + "_" + i}>
                 {headers.map((header, j) =>
                   header.key !== "actions" ? (
-                    <td key={i + "_" + j}>{dataObject[header.key]}</td>
+                    <td key={dataObject.id + "_" + i + "_" + j}>
+                      {dataObject[header.key]}
+                    </td>
                   ) : (
-                    <td key={i + "_" + j}>
+                    <td key={dataObject.id + "_" + i + "_" + j}>
                       {actions.map((action, k) => (
                         <button
-                          key={i + "_" + j + "_" + k}
+                          key={dataObject.id + "_" + k}
                           onClick={() => action.actionEvent(dataObject.id)}
                         >
                           {action.label}

@@ -7,9 +7,9 @@ import Login from "./pages/login/Login";
 import Logout from "./pages/logout/Logout";
 import AuthWrapper from "./components/AuthWrapper";
 import { Subnavbar } from "./components/admin/subnavbar/subnavbar";
-import { BillsTemplates } from "./pages/Admin/billsTemplates/billsTemplates";
-import { YearsList } from "./components/admin/years/YearsList";
-import PeriodsList from "./components/admin/periods/PeriodsList";
+import AdminYears from "./components/admin/years/YearsList";
+import AdminPeriods from "./components/admin/periods/PeriodsList";
+import AdminTemplates from "./components/admin/templates/TemplatesList";
 
 function App() {
   return (
@@ -40,9 +40,9 @@ function App() {
               <AuthWrapper>
                 <Subnavbar />
                 <Routes>
-                  <Route path="/billingYears" element={<YearsList />} />
-                  <Route path="/billingPeriods" element={<PeriodsList />} />
-                  <Route path="/billsTemplates" element={<BillsTemplates />} />
+                  <Route path="/billingYears" element={<AdminYears />} />
+                  <Route path="/billingPeriods" element={<AdminPeriods />} />
+                  <Route path="/billsTemplates" element={<AdminTemplates />} />
                 </Routes>
               </AuthWrapper>
             }

@@ -5,7 +5,7 @@ import { sortYears } from "../../../utils/features";
 import { DataTableView } from "../../../components/common/DataTableView";
 import { YearCreate } from "./YearCreate";
 
-export function YearsList() {
+export default function YearsList() {
   const [billingYears, setBillingYears] = useState([]);
   const firebase = useFirebase();
   const yearsRef = collection(firebase.firestore, "billingYears");
