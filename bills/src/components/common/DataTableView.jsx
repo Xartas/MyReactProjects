@@ -1,6 +1,6 @@
 import React from "react";
 
-export function DataTableView({ headers, data, actions }) {
+export function DataTableView({ headers, data, actions, togglePaidStatus }) {
   return (
     <React.Fragment>
       <div className="tableWrapper">
@@ -15,24 +15,39 @@ export function DataTableView({ headers, data, actions }) {
           <tbody>
             {data.map((dataObject, i) => (
               <tr key={dataObject.id + "_" + i}>
-                {headers.map((header, j) =>
-                  header.key !== "actions" ? (
-                    <td key={dataObject.id + "_" + i + "_" + j}>
-                      {dataObject[header.key]}
-                    </td>
-                  ) : (
-                    <td key={dataObject.id + "_" + i + "_" + j}>
-                      {actions.map((action, k) => (
-                        <button
-                          key={dataObject.id + "_" + k}
-                          onClick={() => action.actionEvent(dataObject.id)}
-                        >
-                          {action.label}
-                        </button>
-                      ))}
-                    </td>
-                  )
-                )}
+                {headers.map((header, j) => {
+                  if (header.key !== "actions" && header.key !== "isPaid") {
+                    return (
+                      <td key={dataObject.id + "_" + i + "_" + j}>
+                        {dataObject[header.key]}
+                      </td>
+                    );
+                  } else if (header.key === "actions") {
+                    return (
+                      <td key={dataObject.id + "_" + i + "_" + j}>
+                        {actions.map((action, k) => (
+                          <button
+                            key={dataObject.id + "_" + i + "_" + j + "_" + k}
+                            onClick={() => action.actionEvent(dataObject.id)}
+                          >
+                            {action.label}
+                          </button>
+                        ))}
+                      </td>
+                    );
+                  } else if (header.key === "isPaid") {
+                    return (
+                      <td key={dataObject.id + "_" + i + "_" + j}>
+                        <input
+                          type="checkbox"
+                          className="paidCheckbox"
+                          onChange={() => togglePaidStatus(dataObject.id)}
+                          defaultChecked={dataObject.isPaid}
+                        />
+                      </td>
+                    );
+                  }
+                })}
               </tr>
             ))}
           </tbody>

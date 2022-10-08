@@ -7,11 +7,12 @@ import {
   where,
   doc,
   updateDoc,
-  addDoc,
   deleteDoc,
 } from "firebase/firestore";
 import { useFirebase } from "../../contexts/FirebaseContext";
 import { sortPeriodsByMonth } from "../../utils/features";
+import { DataTableView } from "../../components/common/DataTableView";
+import AddBill from "../../components/admin/templates/TemplateCreate";
 
 function Bills() {
   const [billingYears, setBillingYears] = useState([]);
@@ -19,15 +20,18 @@ function Bills() {
   const [billingPeriods, setBillingPeriods] = useState([]);
   const [activePeriodId, setActivePeriodId] = useState("");
   const [billsList, setBillsList] = useState([]);
-  const [newBillName, setNewBillName] = useState("");
-  const [newBillContractor, setNewBillContractor] = useState("");
-  const [newBillAmount, setNewBillAmount] = useState("");
+  const [editModeActive, setEditModeActive] = useState(false);
+  const [selectedBillId, setSelectedBillId] = useState("");
   const firebase = useFirebase();
   const yearsRef = collection(firebase.firestore, "billingYears");
   const billingPeriodsRef = collection(
     firebase.firestore,
     "users/" + firebase.user.uid + "/billingPeriods"
   );
+  const [billsRefPath, setBillsRefPath] = useState(
+    "users/" + firebase.user.uid + "/billingPeriods"
+  );
+  const billsRef = collection(firebase.firestore, billsRefPath);
 
   useEffect(() => {
     onSnapshot(yearsRef, (snapshot) => {
@@ -49,14 +53,14 @@ function Bills() {
 
   useEffect(() => {
     if (activePeriodId && activePeriodId !== "") {
-      const billsRef = collection(
-        firebase.firestore,
+      const billsRefPath =
         "users/" +
-          firebase.user.uid +
-          "/billingPeriods/" +
-          activePeriodId +
-          "/bills"
-      );
+        firebase.user.uid +
+        "/billingPeriods/" +
+        activePeriodId +
+        "/bills";
+      setBillsRefPath(billsRefPath);
+      const billsRef = collection(firebase.firestore, billsRefPath);
       onSnapshot(billsRef, (snapshot) => {
         const bills = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -67,57 +71,70 @@ function Bills() {
     }
   }, [activePeriodId]);
 
-  const togglePaidStatus = (bill) => {
-    bill.isPaid = !bill.isPaid;
-    const billDoc = doc(
-      firebase.firestore,
-      "users/" +
-        firebase.user.uid +
-        "/billingPeriods/" +
-        activePeriodId +
-        "/bills",
-      bill.id
-    );
+  const onEdit = (billId) => {
+    setEditModeActive(!editModeActive);
+    setSelectedBillId(billId);
+  };
+
+  const togglePaidStatus = (billId) => {
+    const selectedBill = billsList.find((bill) => bill.id === billId);
+    selectedBill.isPaid = !selectedBill.isPaid;
+    const billDoc = doc(billsRef, billId);
     updateDoc(billDoc, {
-      ...bill,
+      isPaid: selectedBill.isPaid,
     });
   };
 
-  const addNewBiil = () => {
-    const billsRef = collection(
-      firebase.firestore,
-      "users/" +
-        firebase.user.uid +
-        "/billingPeriods/" +
-        activePeriodId +
-        "/bills"
-    );
-
-    const bill = {
-      contractor: newBillContractor,
-      name: newBillName,
-      amount: newBillAmount,
-      isPaid: false,
-    };
-    addDoc(billsRef, bill);
-    setNewBillAmount("");
-    setNewBillContractor("");
-    setNewBillName("");
-  };
-
   const deleteBill = (billId) => {
-    const billDoc = doc(
-      firebase.firestore,
-      "users/" +
-        firebase.user.uid +
-        "/billingPeriods/" +
-        activePeriodId +
-        "/bills",
-      billId
-    );
-
+    const billDoc = doc(billsRef, billId);
     deleteDoc(billDoc);
   };
+
+  const headers = [
+    { name: "Nazwa", key: "name" },
+    { name: "Kontrahent", key: "contractor" },
+    { name: "Kwota", key: "amount" },
+    { name: "Opłacony", key: "isPaid" },
+    { name: "Akcje", key: "actions" },
+  ];
+
+  const actions = [
+    {
+      label: "Dodaj płatność",
+      key: "addItem",
+      editModeStatus: false,
+    },
+    {
+      label: "Zapisz",
+      key: "saveItem",
+      editModeStatus: true,
+    },
+    {
+      label: "Anuluj",
+      key: "cancel",
+      editModeStatus: true,
+    },
+  ];
+
+  const tableActions = [
+    {
+      label: "Edytuj",
+      actionEvent: onEdit,
+    },
+    {
+      label: "Usuń",
+      actionEvent: deleteBill,
+    },
+  ];
+
+  const newBillPlaceholders = {
+    name: "Nazwa płatności",
+    contractor: "Kontrahent",
+    amount: "Kwota",
+  };
+
+  console.log(billsList);
+  console.log(billingPeriods);
 
   return (
     <React.Fragment>
@@ -152,58 +169,24 @@ function Bills() {
       </div>
 
       {activePeriodId && (
-        <div className="newBillContainer">
-          <input
-            placeholder="Podaj nazwę..."
-            value={newBillName}
-            onChange={(e) => setNewBillName(e.target.value)}
-          ></input>
-          <input
-            placeholder="Kontrahent..."
-            value={newBillContractor}
-            onChange={(e) => setNewBillContractor(e.target.value)}
-          ></input>
-          <input
-            placeholder="Podaj kwotę rachunku..."
-            value={newBillAmount}
-            onChange={(e) => setNewBillAmount(e.target.value)}
-          ></input>
-          <button onClick={() => addNewBiil()}>Dodaj nowy rachunek</button>
-        </div>
+        <AddBill
+          editModeActive={editModeActive}
+          setEditModeActive={setEditModeActive}
+          selectedItem={billsList.find((bill) => bill.id === selectedBillId)}
+          placeholders={newBillPlaceholders}
+          itemType="bill"
+          refPath={billsRefPath}
+          actions={actions}
+        />
       )}
 
       {activePeriodId && (
-        <div className="tableWrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Nazwa</th>
-                <th>Kontrahent</th>
-                <th>Kwota</th>
-                <th>Opłacony?</th>
-                <th>Akcje</th>
-              </tr>
-            </thead>
-            <tbody>
-              {billsList.map((bill) => (
-                <tr key={bill.id}>
-                  <td key={bill.id + "_name"}>{bill.name}</td>
-                  <td key={bill.id + "_amount"}>{bill.contractor}</td>
-                  <td key={bill.id + "_contractor"}>{bill.amount}</td>
-                  <td key={bill.id + "_isPaid"}>
-                    <input
-                      type="checkbox"
-                      onChange={() => togglePaidStatus(bill)}
-                    />
-                  </td>
-                  <td>
-                    <button onClick={() => deleteBill(bill.id)}>Usuń</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <DataTableView
+          headers={headers}
+          data={billsList}
+          actions={tableActions}
+          togglePaidStatus={togglePaidStatus}
+        />
       )}
     </React.Fragment>
   );

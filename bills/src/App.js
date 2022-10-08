@@ -6,7 +6,7 @@ import Credits from "./pages/credits/Credits";
 import Login from "./pages/login/Login";
 import Logout from "./pages/logout/Logout";
 import AuthWrapper from "./components/AuthWrapper";
-import { Subnavbar } from "./components/admin/subnavbar/subnavbar";
+import Subnavbar from "./components/admin/subnavbar/subnavbar";
 import AdminYears from "./components/admin/years/YearsList";
 import AdminPeriods from "./components/admin/periods/PeriodsList";
 import AdminTemplates from "./components/admin/templates/TemplatesList";

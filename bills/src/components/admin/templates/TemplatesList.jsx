@@ -4,7 +4,7 @@ import { useFirebase } from "../../../contexts/FirebaseContext";
 import { collection, onSnapshot, doc, deleteDoc } from "firebase/firestore";
 import { sortTemplates } from "../../../utils/features";
 import { DataTableView } from "./../../common/DataTableView";
-import TemplateCreate from "./TemplateCreate";
+import AddTemplate from "./TemplateCreate";
 
 export default function TemplatesList() {
   const [templates, setTemplates] = useState([]);
@@ -19,13 +19,9 @@ export default function TemplatesList() {
         id: doc.id,
         ...doc.data(),
       }));
-      console.log("Stała w useEffect:");
-      console.log(templates);
-      //setTemplates(templates);
+      setTemplates(sortTemplates(templates));
     });
   }, []);
-  console.log("Stan:");
-  console.log(templates);
 
   const onEdit = (templateId) => {
     setEditModeActive(!editModeActive);
@@ -43,7 +39,26 @@ export default function TemplatesList() {
     { name: "Kwota", key: "amount" },
     { name: "Akcje", key: "actions" },
   ];
+
   const actions = [
+    {
+      label: "Dodaj szablon",
+      key: "addItem",
+      editModeStatus: false,
+    },
+    {
+      label: "Zapisz",
+      key: "saveItem",
+      editModeStatus: true,
+    },
+    {
+      label: "Anuluj",
+      key: "cancel",
+      editModeStatus: true,
+    },
+  ];
+
+  const tableActions = [
     {
       label: "Edytuj",
       actionEvent: onEdit,
@@ -53,16 +68,29 @@ export default function TemplatesList() {
       actionEvent: onDelete,
     },
   ];
+  const newTemplatePlaceholders = {
+    name: "Nazwa szablonu",
+    contractor: "Kontrahent",
+    amount: "Kwota",
+  };
   return (
     <React.Fragment>
-      <TemplateCreate
+      <AddTemplate
         editModeActive={editModeActive}
         setEditModeActive={setEditModeActive}
-        selectedTemplate={templates.find(
-          (template) => (template.id = selectedTemplateId)
+        selectedItem={templates.find(
+          (template) => template.id === selectedTemplateId
         )}
+        placeholders={newTemplatePlaceholders}
+        itemType="template"
+        refPath="templates"
+        actions={actions}
       />
-      <DataTableView headers={headers} data={templates} actions={actions} />
+      <DataTableView
+        headers={headers}
+        data={templates}
+        actions={tableActions}
+      />
     </React.Fragment>
   );
 }

@@ -1,66 +1,116 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFirebase } from "../../../contexts/FirebaseContext";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 
 export default function TemplateCreate({
   editModeActive,
   setEditModeActive,
-  selectedTemplate,
+  selectedItem,
+  placeholders,
+  itemType,
+  refPath,
+  actions,
 }) {
   const [name, setName] = useState("");
   const [contractor, setContractor] = useState("");
   const [amount, setAmount] = useState("");
+  const [isPaid, setIsPaid] = useState(false);
   const firebase = useFirebase();
-  const templatesRef = collection(firebase.firestore, "templates");
+  const itemRef = collection(firebase.firestore, refPath);
 
-  const addNewTemplate = () => {
-    const newTemplate = {
+  console.log(refPath);
+
+  useEffect(() => {
+    if (editModeActive === true) {
+      setName(selectedItem.name);
+      setContractor(selectedItem.contractor);
+      setAmount(selectedItem.amount);
+    } else {
+      setName("");
+      setContractor("");
+      setAmount("");
+    }
+  }, [editModeActive]);
+
+  const addNewItem = () => {
+    let newItem = {
       name: name,
       contractor: contractor,
       amount: Number(amount),
     };
-    addDoc(templatesRef, newTemplate);
+    if (itemType === "bill") {
+      newItem = {
+        ...newItem,
+        isPaid: isPaid,
+      };
+    }
+    addDoc(itemRef, newItem);
     setName("");
     setContractor("");
     setAmount("");
+    setIsPaid("");
   };
 
-  const onSave = () => {};
+  const onSave = (selectedItem) => {
+    const itemDoc = doc(itemRef, selectedItem.id);
+    updateDoc(itemDoc, {
+      name: name,
+      contractor: contractor,
+      amount: Number(amount),
+    });
+    setEditModeActive(false);
+  };
+
+  console.log(editModeActive);
+
   return (
     <React.Fragment>
       <div className="creatingTemplatesContainer">
         <input
-          placeholder="Nazwa szablonu..."
-          //value={!editModeActive ? name : selectedTemplate.name}
+          placeholder={placeholders.name}
           value={name}
           onChange={(e) => setName(e.target.value)}
         ></input>
         <input
-          placeholder="Kontrahent..."
-          //value={editModeActive ? selectedTemplate.contractor : contractor}
+          placeholder={placeholders.contractor}
           value={contractor}
           onChange={(e) => setContractor(e.target.value)}
         ></input>
         <input
-          placeholder="Kwota..."
-          //value={editModeActive ? selectedTemplate.amount : amount}
+          placeholder={placeholders.amount}
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
         ></input>
-        <button
-          onClick={() => addNewTemplate()}
-          disabled={editModeActive ? true : false}
-        >
-          Dodaj szablon
-        </button>
-        {editModeActive && (
-          <>
-            <button onClick={onSave}>Zapisz</button>
-            <button onClick={() => setEditModeActive(!editModeActive)}>
-              Anuluj
-            </button>
-          </>
-        )}
+        {actions.map((action) => {
+          if (
+            action.key === "addItem" &&
+            action.editModeStatus === editModeActive
+          ) {
+            return (
+              <button key={action.key} onClick={() => addNewItem()}>
+                {action.label}
+              </button>
+            );
+          } else if (
+            action.key === "saveItem" &&
+            action.editModeStatus === editModeActive
+          ) {
+            return (
+              <button key={action.key} onClick={() => onSave(selectedItem)}>
+                {action.label}
+              </button>
+            );
+          } else if (
+            action.key === "cancel" &&
+            action.editModeStatus === editModeActive
+          ) {
+            return (
+              <button key={action.key} onClick={() => onSave(selectedItem)}>
+                {action.label}
+              </button>
+            );
+          }
+        })}
       </div>
     </React.Fragment>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import "./subnavbar.scss";
 import { Link } from "react-router-dom";
 
-export function Subnavbar() {
+export default function Subnavbar() {
   return (
     <React.Fragment>
       <div className="subnavbar">
