@@ -1,32 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { collection, onSnapshot } from "firebase/firestore";
-import { useFirebase } from "../../contexts/FirebaseContext";
+import React from "react";
 
-function CreditsList() {
-  const [credits, setCredits] = useState([]);
-  const firebase = useFirebase();
-
-  useEffect(() => {
-    const creditsRef = collection(
-      firebase.firestore,
-      "users/" + firebase.user.uid + "/credits"
-    );
-    onSnapshot(creditsRef, (snapshot) => {
-      const creditsData = snapshot.docs.map((doc) => doc.data());
-      setCredits(creditsData);
-    });
-  }, []);
-
-  console.log(credits);
+export default function CreditDetails({ credit }) {
   return (
     <React.Fragment>
-      <ul>
-        {credits.map((credit) => (
-          <li>{credit.title}</li>
-        ))}
-      </ul>
+      {credit && (
+        <div className="creditDetails">
+          <h3>DANE KREDYTU</h3>
+          <p className="creditTitle">Tytuł kredytu: {credit.title}</p>
+          <p className="creditDescription">Opis umowy: {credit.description}</p>
+          <div className="financeData">
+            <h3>DANE FINANSOWE</h3>
+            <p>Kwota kredytu: {credit.value}</p>
+            <p>Ilosć rat: {credit.installmentsCount}</p>
+            <p>Pozostało do spłaty: {credit.unpaidValue}</p>
+            <p>Ilosć rat opłaconych: {credit.installmentsPaid}</p>
+            <p>Ilość rat nieopłaconych: {credit.installmentsUnpaid}</p>
+          </div>
+        </div>
+      )}
     </React.Fragment>
   );
 }
-
-export default CreditsList;

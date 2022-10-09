@@ -36,7 +36,10 @@ export function DataTableView({ headers, data, actions, togglePaidStatus }) {
                         ))}
                       </td>
                     );
-                  } else if (header.key === "isPaid") {
+                  } else if (
+                    header.key === "isPaid" ||
+                    header.key === "fullyPaid"
+                  ) {
                     return (
                       <td key={dataObject.id + "_" + i + "_" + j}>
                         <input

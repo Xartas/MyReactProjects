@@ -8,41 +8,74 @@
     font-size: 20px;
     padding: 10px;
 
+    h3 {
+      color: #00897b;
+      line-height: 40px;
+    }
+
     .container {
-        display: flex;
-        flex-direction: row;
+      display: flex;
+      flex-direction: column;
       padding-top: 10px;
+
+      .creatingCreditContainer {
+        border: solid 1px #00897b;
+        padding: 10px;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        line-height: 20px;
+
+        input {
+          font-size: 15px;
+          margin-right: 10px;
+        }
+
+        button {
+          padding: 3px;
+          font-size: 12px;
+          font-weight: 600;
+          margin-right: 10px;
+        }
+      }
 
       .creditContainer {
         display: flex;
-        align-items: left;
-        flex-direction: column;
+        justify-items: baseline;
+        width: 98vw;
+        height: 30vh;
+        flex-direction: row;
         line-height: 20px;
+        margin-top: 10px;
 
         .creditDetails {
           border: solid 1px #00897b;
           padding: 10px;
-          margin-top: 10px;
-          height: 250px;
-          width: 250px;
+          width: 50%;
+          margin-left: 10px;
+          line-height: 30px;
         }
 
         .creditList {
           border: solid 1px #00897b;
           padding: 10px;
-          height: 250px;
-          width: 250px;
+          width: 50%;
+
+          .creditListItem {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+          }
         }
       }
 
-      .isntallmentsContainer {
-        width: 250px;
-        height: 500px;
+      .installmentsContainer {
+        width: 96vw;
+        height: 50vh;
         border: solid 1px #00897b;
         padding: 10px;
-        margin-left: 10px;
+        margin-top: 10px;
         display: flex;
-        align-items: center;
         line-height: 20px;
       }
     }
