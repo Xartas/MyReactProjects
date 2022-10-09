@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { FirebaseProvider } from "./contexts/FirebaseContext";
 import Navbar from "./components/common/navbar/Navbar";
 import Bills from "./pages/bills/Bills";
-import Credits from "./pages/credits/Credits";
+import Credits from "./pages/credits/CreditsView";
 import Login from "./pages/login/Login";
 import Logout from "./pages/logout/Logout";
 import AuthWrapper from "./components/AuthWrapper";
