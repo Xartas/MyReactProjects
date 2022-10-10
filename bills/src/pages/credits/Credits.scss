@@ -43,7 +43,7 @@
         display: flex;
         justify-items: baseline;
         width: 98vw;
-        height: 30vh;
+       // height: 30vh;
         flex-direction: row;
         line-height: 20px;
         margin-top: 10px;
@@ -52,6 +52,7 @@
           border: solid 1px #00897b;
           padding: 10px;
           width: 50%;
+          height: fit-content;
           margin-left: 10px;
           line-height: 30px;
         }
@@ -71,7 +72,7 @@
 
       .installmentsContainer {
         width: 96vw;
-        height: 50vh;
+        height: fit-content;
         border: solid 1px #00897b;
         padding: 10px;
         margin-top: 10px;

@@ -11,6 +11,7 @@ export default function Credits() {
   const [credits, setCredits] = useState([]);
   const [selectedCreditId, setSelectedCreditId] = useState("");
   const [selectedCredit, setSelectedCredit] = useState({});
+  const [editModeActive, setEditModeActive] = useState(false);
   const firebase = useFirebase();
 
   useEffect(() => {
@@ -43,12 +44,19 @@ export default function Credits() {
   return (
     <React.Fragment>
       <div className="container">
-        <AddCredit />
+        <AddCredit
+          editModeActive={editModeActive}
+          selectedCredit={selectedCredit}
+          setEditModeActive={setEditModeActive}
+        />
         <div className="creditContainer">
           <CreditsList
             credits={credits}
+            setSelectedCredit={setSelectedCredit}
             setSelectedCreditId={setSelectedCreditId}
             onDelete={onDelete}
+            editModeActive={editModeActive}
+            setEditModeActive={setEditModeActive}
           />
           <CreditDetails credit={selectedCredit} />
         </div>

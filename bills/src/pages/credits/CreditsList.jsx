@@ -3,9 +3,17 @@ import { DataTableView } from "../../components/common/DataTableView";
 
 export default function CreditsList({
   credits,
-  setSelectedCreditId,
+  setSelectedCredit,
   onDelete,
+  editModeActive,
+  setEditModeActive,
+  setSelectedCreditId,
 }) {
+  const onEdit = (creditId) => {
+    setEditModeActive(!editModeActive);
+    setSelectedCredit(credits.find((credit) => credit.id === creditId));
+  };
+
   const tableHeaders = [
     { name: "Tytuł", key: "title" },
     { name: "Akcje", key: "actions" },
@@ -19,6 +27,10 @@ export default function CreditsList({
     {
       label: "Usuń",
       actionEvent: onDelete,
+    },
+    {
+      label: "Edytuj",
+      actionEvent: onEdit,
     },
   ];
 

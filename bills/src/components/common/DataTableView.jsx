@@ -36,10 +36,7 @@ export function DataTableView({ headers, data, actions, togglePaidStatus }) {
                         ))}
                       </td>
                     );
-                  } else if (
-                    header.key === "isPaid" ||
-                    header.key === "fullyPaid"
-                  ) {
+                  } else if (header.key === "isPaid") {
                     return (
                       <td key={dataObject.id + "_" + i + "_" + j}>
                         <input
@@ -48,6 +45,12 @@ export function DataTableView({ headers, data, actions, togglePaidStatus }) {
                           onChange={() => togglePaidStatus(dataObject.id)}
                           defaultChecked={dataObject.isPaid}
                         />
+                      </td>
+                    );
+                  } else if (header.key === "fullyPaid") {
+                    return (
+                      <td key={dataObject.id + "_" + i + "_" + j}>
+                        {dataObject.fullyPaid ? "TAK" : "NIE"}
                       </td>
                     );
                   }

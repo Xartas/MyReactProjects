@@ -18,8 +18,6 @@ export default function TemplateCreate({
   const firebase = useFirebase();
   const itemRef = collection(firebase.firestore, refPath);
 
-  console.log(refPath);
-
   useEffect(() => {
     if (editModeActive === true) {
       setName(selectedItem.name);
@@ -60,8 +58,6 @@ export default function TemplateCreate({
     });
     setEditModeActive(false);
   };
-
-  console.log(editModeActive);
 
   return (
     <React.Fragment>
