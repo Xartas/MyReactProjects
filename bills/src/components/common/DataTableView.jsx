@@ -2,8 +2,6 @@ import React from "react";
 import "./navbar/Navbar.scss";
 
 export function DataTableView({ headers, data, actions, togglePaidStatus }) {
-  console.log(headers);
-  console.log(data);
   return (
     <React.Fragment>
       <div className="tableWrapper">

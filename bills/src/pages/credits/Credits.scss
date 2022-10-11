@@ -43,7 +43,6 @@
         display: flex;
         justify-items: baseline;
         width: 98vw;
-       // height: 30vh;
         flex-direction: row;
         line-height: 20px;
         margin-top: 10px;
@@ -78,6 +77,40 @@
         margin-top: 10px;
         display: flex;
         line-height: 20px;
+
+        .editInstallment {
+          border: solid 1px #00897b;
+          padding: 10px;
+          margin-top: 10px;
+          display: flex;
+          align-items: center;
+          line-height: 20px;
+  
+          input {
+            font-size: 15px;
+            margin-right: 10px;
+          }
+  
+          button {
+            padding: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 10px;
+          }
+        }
+
+        .paginationButtons {
+          display: flex;
+          margin-top: 10px;
+          justify-content: center;
+
+          button {
+            padding: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 10px;
+          }
+        }
       }
     }
   }

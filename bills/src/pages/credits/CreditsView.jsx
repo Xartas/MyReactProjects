@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  updateDoc,
+} from "firebase/firestore";
 import { useFirebase } from "../../contexts/FirebaseContext";
 import "./Credits.scss";
 import CreditsList from "./CreditsList";
@@ -11,6 +17,7 @@ export default function Credits() {
   const [credits, setCredits] = useState([]);
   const [selectedCreditId, setSelectedCreditId] = useState("");
   const [selectedCredit, setSelectedCredit] = useState({});
+  const [updatedCredit, setUpdatedCredit] = useState();
   const [editModeActive, setEditModeActive] = useState(false);
   const firebase = useFirebase();
 
@@ -32,6 +39,20 @@ export default function Credits() {
     const credit = credits.find((credit) => credit.id === selectedCreditId);
     setSelectedCredit(credit);
   }, [selectedCreditId]);
+
+  useEffect(() => {
+    const creditsRef = collection(
+      firebase.firestore,
+      "users/" + firebase.user.uid + "/credits"
+    );
+    if (updatedCredit) {
+      const creditDoc = doc(creditsRef, updatedCredit.id);
+      updateDoc(creditDoc, {
+        ...updatedCredit,
+      });
+      setSelectedCredit(updatedCredit);
+    }
+  }, [updatedCredit]);
 
   const onDelete = (creditId) => {
     const creditDoc = doc(
@@ -62,7 +83,10 @@ export default function Credits() {
         </div>
         {selectedCredit && (
           <div className="installmentsContainer">
-            <InstallmentsList credit={selectedCredit} />
+            <InstallmentsList
+              credit={selectedCredit}
+              setUpdatedCredit={setUpdatedCredit}
+            />
           </div>
         )}
       </div>
