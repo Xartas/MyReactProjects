@@ -2,6 +2,8 @@ import React from "react";
 import "./navbar/Navbar.scss";
 
 export function DataTableView({ headers, data, actions, togglePaidStatus }) {
+  console.log(headers);
+  console.log(data);
   return (
     <React.Fragment>
       <div className="tableWrapper">
@@ -17,7 +19,11 @@ export function DataTableView({ headers, data, actions, togglePaidStatus }) {
             {data.map((dataObject, i) => (
               <tr key={dataObject.id + "_" + i}>
                 {headers.map((header, j) => {
-                  if (header.key !== "actions" && header.key !== "isPaid") {
+                  if (
+                    header.key !== "actions" &&
+                    header.key !== "isPaid" &&
+                    header.key !== "fullyPaid"
+                  ) {
                     return (
                       <td key={dataObject.id + "_" + i + "_" + j}>
                         {dataObject[header.key]}

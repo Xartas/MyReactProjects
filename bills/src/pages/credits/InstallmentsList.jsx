@@ -2,52 +2,33 @@ import React, { useState, useEffect } from "react";
 import {
   collection,
   onSnapshot,
-  doc,
   orderBy,
   query,
   limit,
-  startAfter,
+  startAt,
 } from "firebase/firestore";
 import { useFirebase } from "../../contexts/FirebaseContext";
 import { DataTableView } from "../../components/common/DataTableView";
 
-export default function InstallmentsList({ creditId }) {
+export default function InstallmentsList({ credit }) {
   const [installments, setInstallments] = useState([]);
-  const [lastVisibleInstallmentId, setLastVisibleInstallmentId] = useState();
+  const [page, setPage] = useState(0);
   const firebase = useFirebase();
   const installmentsVisibleLimit = 10;
   const installmentsRef = collection(
     firebase.firestore,
-    "users/" + firebase.user.uid + "/credits/" + creditId + "/installments"
+    "users/" + firebase.user.uid + "/credits/" + credit.id + "/installments"
   );
 
   useEffect(() => {
-    const q = query(
-      installmentsRef,
-      orderBy("number"),
-      limit(installmentsVisibleLimit)
-    );
-    onSnapshot(q, (snapshot) => {
-      const installmentsData = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setInstallments(installmentsData);
-    });
-  }, [creditId]);
-
-  useEffect(() => {
-    installments.length > 0 &&
-      setLastVisibleInstallmentId(installments[installments.length - 1].id);
-    // console.log(installments);
-    // console.log(lastVisibleInstallmentId);
-  }, [installments]);
+    viewNextPage();
+  }, [credit.id, page]);
 
   const viewNextPage = () => {
     const q = query(
       installmentsRef,
       orderBy("number"),
-      startAfter(doc.id === lastVisibleInstallmentId), // nie działa - do poprawki.
+      startAt(page * installmentsVisibleLimit + 1),
       limit(installmentsVisibleLimit)
     );
     onSnapshot(q, (snapshot) => {
@@ -85,8 +66,17 @@ export default function InstallmentsList({ creditId }) {
           actions={tableActions}
           data={installments}
         />
-        <button>Poprzednia</button>
-        <button onClick={() => viewNextPage()}>Następna</button>
+        <button onClick={() => setPage(page - 1)} disabled={page === 0}>
+          Poprzednia
+        </button>
+        <button
+          onClick={() => setPage(page + 1)}
+          disabled={
+            (page + 1) * installmentsVisibleLimit + 1 > credit.installmentsCount
+          }
+        >
+          Następna
+        </button>
       </div>
     </React.Fragment>
   );

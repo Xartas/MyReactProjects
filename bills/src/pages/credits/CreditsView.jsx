@@ -62,7 +62,7 @@ export default function Credits() {
         </div>
         {selectedCredit && (
           <div className="installmentsContainer">
-            <InstallmentsList creditId={selectedCredit.id} />
+            <InstallmentsList credit={selectedCredit} />
           </div>
         )}
       </div>
