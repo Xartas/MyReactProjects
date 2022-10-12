@@ -24,17 +24,13 @@ export default function Bills() {
   const [editModeActive, setEditModeActive] = useState(false);
   const [selectedBillId, setSelectedBillId] = useState("");
   const firebase = useFirebase();
-  const yearsRef = collection(firebase.firestore, "billingYears");
-  const billingPeriodsRef = collection(
-    firebase.firestore,
-    "users/" + firebase.user.uid + "/billingPeriods"
-  );
   const [billsRefPath, setBillsRefPath] = useState(
     "users/" + firebase.user.uid + "/billingPeriods"
   );
   const billsRef = collection(firebase.firestore, billsRefPath);
 
   useEffect(() => {
+    const yearsRef = collection(firebase.firestore, "billingYears");
     onSnapshot(yearsRef, (snapshot) => {
       const years = snapshot.docs.map((doc) => doc.data().year);
       setBillingYears(years.sort());
@@ -42,6 +38,10 @@ export default function Bills() {
   }, []);
 
   useEffect(() => {
+    const billingPeriodsRef = collection(
+      firebase.firestore,
+      "users/" + firebase.user.uid + "/billingPeriods"
+    );
     const q = query(billingPeriodsRef, where("year", "==", activeYear));
     onSnapshot(q, (snapshot) => {
       const periods = snapshot.docs.map((doc) => ({

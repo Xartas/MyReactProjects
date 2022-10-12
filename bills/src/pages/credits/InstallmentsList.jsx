@@ -61,8 +61,6 @@ export default function InstallmentsList({ credit, setUpdatedCredit }) {
   };
 
   const onSave = (newPayDate, newPaidValue) => {
-    console.log("New Pay Date w onSave: " + newPayDate);
-    console.log("New Paid Value w onSave: " + newPaidValue);
     const installmentDoc = doc(installmentsRef, selectedInstallment.id);
     updateDoc(installmentDoc, {
       payDate: newPayDate,
@@ -90,7 +88,6 @@ export default function InstallmentsList({ credit, setUpdatedCredit }) {
           ? (installmentsPaid = installmentsPaid + 1)
           : (installmentsPaid = installmentsPaid + 0);
       });
-      console.log(unpaidSum + " | " + installmentsPaid);
       updateCredit(unpaidSum, installmentsPaid);
     });
   };

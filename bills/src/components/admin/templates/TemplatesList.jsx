@@ -11,9 +11,9 @@ export default function TemplatesList() {
   const [editModeActive, setEditModeActive] = useState(false);
   const [selectedTemplateId, setSelectedTemplateId] = useState("");
   const firebase = useFirebase();
-  const templatesRef = collection(firebase.firestore, "templates/");
 
   useEffect(() => {
+    const templatesRef = collection(firebase.firestore, "templates/");
     onSnapshot(templatesRef, (snapshot) => {
       const templates = snapshot.docs.map((doc) => ({
         id: doc.id,

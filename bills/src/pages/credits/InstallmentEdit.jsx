@@ -8,8 +8,7 @@ export default function InstallmentEdit({
 }) {
   const [newPayDate, setNewPayDate] = useState();
   const [newPaidValue, setNewPaidValue] = useState();
-  console.log("New Pay Date: " + newPayDate);
-  console.log("New Paid Value: " + newPaidValue);
+
   useEffect(() => {
     if (selectedInstallment) {
       setNewPayDate(selectedInstallment.payDate);

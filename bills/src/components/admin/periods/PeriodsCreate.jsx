@@ -15,13 +15,9 @@ export default function PeriodsCreate({ setSelectedYear, billingPeriods }) {
   const [billingYears, setBillingYears] = useState([]);
   const [activeYear, setActiveYear] = useState("");
   const firebase = useFirebase();
-  const yearsRef = collection(firebase.firestore, "billingYears");
-  const billingPeriodsRef = collection(
-    firebase.firestore,
-    "users/" + firebase.user.uid + "/billingPeriods"
-  );
 
   useEffect(() => {
+    const yearsRef = collection(firebase.firestore, "billingYears");
     onSnapshot(yearsRef, (snapshot) => {
       const years = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -37,6 +33,10 @@ export default function PeriodsCreate({ setSelectedYear, billingPeriods }) {
   };
 
   const createBillingPeriods = (activeYear) => {
+    const billingPeriodsRef = collection(
+      firebase.firestore,
+      "users/" + firebase.user.uid + "/billingPeriods"
+    );
     const periods = months.map((month) => ({
       billingPeriod: activeYear + month.id,
       year: activeYear,
@@ -61,7 +61,7 @@ export default function PeriodsCreate({ setSelectedYear, billingPeriods }) {
   };
 
   const onDelete = (activeYear) => {
-    billingPeriods.map((bp) => {
+    billingPeriods.forEach((bp) => {
       if (bp.year === activeYear) {
         const bpDoc = doc(
           firebase.firestore,

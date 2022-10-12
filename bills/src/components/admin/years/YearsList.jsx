@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useFirebase } from "../../../contexts/FirebaseContext";
 import { collection, onSnapshot, doc, deleteDoc } from "firebase/firestore";
-import { sortYears } from "../../../utils/features";
 import DataTableView from "../../../components/common/DataTableView";
 import YearCreate from "./YearCreate";
 
 export default function YearsList() {
   const [billingYears, setBillingYears] = useState([]);
   const firebase = useFirebase();
-  const yearsRef = collection(firebase.firestore, "billingYears");
 
   useEffect(() => {
+    const yearsRef = collection(firebase.firestore, "billingYears");
     onSnapshot(yearsRef, (snapshot) => {
       const years = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-      setBillingYears(sortYears(years));
+      setBillingYears(years.sort((a, b) => (a.year > b.year ? 1 : -1)));
     });
   }, []);
 

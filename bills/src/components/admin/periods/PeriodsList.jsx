@@ -18,13 +18,11 @@ export default function PeriodsList() {
   const [selectedYear, setSelectedYear] = useState("");
   const firebase = useFirebase();
 
-  const billingPeriodsRef = collection(
-    firebase.firestore,
-    "users/" + firebase.user.uid + "/billingPeriods"
-  );
-  const paymentTemplatesRef = collection(firebase.firestore, "templates");
-
   useEffect(() => {
+    const billingPeriodsRef = collection(
+      firebase.firestore,
+      "users/" + firebase.user.uid + "/billingPeriods"
+    );
     const q = query(billingPeriodsRef, where("year", "==", selectedYear));
     onSnapshot(q, (snapshot) => {
       const periods = snapshot.docs.map((doc) => ({
@@ -36,6 +34,7 @@ export default function PeriodsList() {
   }, [selectedYear]);
 
   useEffect(() => {
+    const paymentTemplatesRef = collection(firebase.firestore, "templates");
     onSnapshot(paymentTemplatesRef, (snapshot) => {
       const templates = snapshot.docs.map((doc) => doc.data());
       setPaymentTemplates(templates);
@@ -47,14 +46,12 @@ export default function PeriodsList() {
       firebase.firestore,
       "users/" + firebase.user.uid + "/billingPeriods/" + periodId + "/bills"
     );
-
     const bills = paymentTemplates.map((template) => ({
       contractor: template.contractor,
       name: template.name,
       amount: template.amount,
       isPaid: false,
     }));
-
     bills.map((bill) => {
       addDoc(billsRef, bill);
     });

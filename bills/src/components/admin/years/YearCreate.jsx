@@ -4,9 +4,9 @@ import { collection, addDoc } from "firebase/firestore";
 
 export default function YearCreate({ lastYear }) {
   const firebase = useFirebase();
-  const yearsRef = collection(firebase.firestore, "billingYears");
 
   const addNewYear = () => {
+    const yearsRef = collection(firebase.firestore, "billingYears");
     const newYear = {
       year: (lastYear + 1).toString(),
       billsImported: false,

@@ -56,8 +56,6 @@ export default function CreditCreate({
   };
 
   const onSave = (credit) => {
-    console.log(credit.id);
-    console.log(creditsRef);
     const creditDoc = doc(creditsRef, credit.id);
     updateDoc(creditDoc, {
       title: title,
