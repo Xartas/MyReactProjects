@@ -11,8 +11,8 @@ import {
 } from "firebase/firestore";
 import { useFirebase } from "../../contexts/FirebaseContext";
 import { sortPeriodsByMonth } from "../../utils/features";
-import { DataTableView } from "../../components/common/DataTableView";
-import { billsConstant } from "../../utils/utils";
+import { billsConstants } from "../../utils/utils";
+import DataTableView from "../../components/common/DataTableView";
 import AddBill from "../../components/admin/templates/TemplateCreate";
 
 function Bills() {
@@ -139,16 +139,16 @@ function Bills() {
           editModeActive={editModeActive}
           setEditModeActive={setEditModeActive}
           selectedItem={billsList.find((bill) => bill.id === selectedBillId)}
-          placeholders={billsConstant.newBillPlaceholders}
+          placeholders={billsConstants.newBillPlaceholders}
           itemType="bill"
           refPath={billsRefPath}
-          actions={billsConstant.addBillActions}
+          actions={billsConstants.addBillActions}
         />
       )}
 
       {activePeriodId && (
         <DataTableView
-          headers={billsConstant.tableHeaders}
+          headers={billsConstants.tableHeaders}
           data={billsList}
           actions={tableActions}
           togglePaidStatus={togglePaidStatus}

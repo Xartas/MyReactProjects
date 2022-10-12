@@ -9,7 +9,7 @@ import {
   where,
 } from "firebase/firestore";
 import { sortPeriodsByMonth } from "../../../utils/features";
-import { DataTableView } from "./../../../components/common/DataTableView";
+import DataTableView from "./../../../components/common/DataTableView";
 import PeriodsCreate from "./PeriodsCreate";
 
 export default function PeriodsList() {

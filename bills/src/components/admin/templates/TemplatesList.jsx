@@ -3,7 +3,7 @@ import "./billingTemplates.scss";
 import { useFirebase } from "../../../contexts/FirebaseContext";
 import { collection, onSnapshot, doc, deleteDoc } from "firebase/firestore";
 import { sortTemplates } from "../../../utils/features";
-import { DataTableView } from "./../../common/DataTableView";
+import DataTableView from "./../../common/DataTableView";
 import AddTemplate from "./TemplateCreate";
 
 export default function TemplatesList() {

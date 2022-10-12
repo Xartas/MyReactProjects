@@ -2,7 +2,7 @@ import React from "react";
 import { useFirebase } from "../../../contexts/FirebaseContext";
 import { collection, addDoc } from "firebase/firestore";
 
-export function YearCreate({ lastYear }) {
+export default function YearCreate({ lastYear }) {
   const firebase = useFirebase();
   const yearsRef = collection(firebase.firestore, "billingYears");
 

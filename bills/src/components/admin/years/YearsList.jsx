@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useFirebase } from "../../../contexts/FirebaseContext";
 import { collection, onSnapshot, doc, deleteDoc } from "firebase/firestore";
 import { sortYears } from "../../../utils/features";
-import { DataTableView } from "../../../components/common/DataTableView";
-import { YearCreate } from "./YearCreate";
+import DataTableView from "../../../components/common/DataTableView";
+import YearCreate from "./YearCreate";
 
 export default function YearsList() {
   const [billingYears, setBillingYears] = useState([]);

@@ -50,7 +50,7 @@ export const months = [
 ];
 
 //------------------------- STAŁE DLA RACHUNKÓW -----------------------------
-export const billsConstant = {
+export const billsConstants = {
   tableHeaders: [
     { name: "Nazwa", key: "name" },
     { name: "Kontrahent", key: "contractor" },
@@ -80,4 +80,26 @@ export const billsConstant = {
     contractor: "Kontrahent",
     amount: "Kwota",
   },
+};
+
+//------------------------- STAŁE DLA KREDYTÓW  -----------------------------
+export const creditsConstants = {
+  tableHeaders: [
+    { name: "Tytuł", key: "title" },
+    { name: "Akcje", key: "actions" },
+  ],
+};
+
+//------------------------- STAŁE DLA RAT -----------------------------
+export const installmentsConstants = {
+  tableHeaders: [
+    { name: "Numer raty", key: "number" },
+    { name: "Data wymagalności", key: "paymentDeadline" },
+    { name: "Kwota raty", key: "value" },
+    { name: "Data ostatniej płatności", key: "payDate" },
+    { name: "Kwota opłacona", key: "paidValue" },
+    { name: "Pozostało do spłaty", key: "unpaidValue" },
+    { name: "W pełni opłacona?", key: "fullyPaid" },
+    { name: "Akcje", key: "actions" },
+  ],
 };

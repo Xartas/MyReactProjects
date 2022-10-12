@@ -1,5 +1,6 @@
 import React from "react";
-import { DataTableView } from "../../components/common/DataTableView";
+import DataTableView from "../../components/common/DataTableView";
+import { creditsConstants } from "../../utils/utils";
 
 export default function CreditsList({
   credits,
@@ -13,11 +14,6 @@ export default function CreditsList({
     setEditModeActive(!editModeActive);
     setSelectedCredit(credits.find((credit) => credit.id === creditId));
   };
-
-  const tableHeaders = [
-    { name: "Tytuł", key: "title" },
-    { name: "Akcje", key: "actions" },
-  ];
 
   const tableActions = [
     {
@@ -38,7 +34,7 @@ export default function CreditsList({
     <React.Fragment>
       <div className="creditList">
         <DataTableView
-          headers={tableHeaders}
+          headers={creditsConstants.tableHeaders}
           actions={tableActions}
           data={credits}
         />
