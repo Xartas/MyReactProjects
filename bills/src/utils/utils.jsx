@@ -103,3 +103,46 @@ export const installmentsConstants = {
     { name: "Akcje", key: "actions" },
   ],
 };
+
+//------------------ STAŁE DLA OKRESÓW ROZLICZENIOWYCH ---------------------
+export const periodsConstants = {
+  tableHeaders: [
+    { name: "ID Okresu", key: "billingPeriod" },
+    { name: "Rok", key: "year" },
+    { name: "Miesiąc", key: "month" },
+    { name: "Nazwa", key: "name" },
+    { name: "Akcje", key: "actions" },
+  ],
+};
+
+//------------------ STAŁE DLA SZABLONÓW ---------------------
+export const templatesConstants = {
+  tableHeaders: [
+    { name: "Nazwa", key: "name" },
+    { name: "Kontrahent", key: "contractor" },
+    { name: "Kwota", key: "amount" },
+    { name: "Akcje", key: "actions" },
+  ],
+  actions: [
+    {
+      label: "Dodaj szablon",
+      key: "addItem",
+      editModeStatus: false,
+    },
+    {
+      label: "Zapisz",
+      key: "saveItem",
+      editModeStatus: true,
+    },
+    {
+      label: "Anuluj",
+      key: "cancel",
+      editModeStatus: true,
+    },
+  ],
+  newTemplatePlaceholders: {
+    name: "Nazwa szablonu",
+    contractor: "Kontrahent",
+    amount: "Kwota",
+  },
+};

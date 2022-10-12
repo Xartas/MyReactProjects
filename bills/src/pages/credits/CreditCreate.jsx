@@ -11,10 +11,8 @@ export default function CreditCreate({
   const [description, setDescription] = useState("");
   const [installmentsCount, setInstallmentsCount] = useState(10);
   const [installmentsPaid, setInstallmentsPaid] = useState("");
-  const [installmentsUnpaid, setInstallmentsUnpaid] = useState("");
   const [firstPaymentDate, setFirstPaymentDate] = useState("");
   const [value, setValue] = useState("");
-  const [unpaidValue, setUnpaidValue] = useState("");
   const firebase = useFirebase();
   const creditsRef = collection(
     firebase.firestore,
@@ -47,17 +45,19 @@ export default function CreditCreate({
       value: Number(value),
       unpaidValue: Number(value),
     };
-    addDoc(creditsRef, credit)
-      .then(function (creditRef) {
-        createInstallmentsForNewCredit(credit, creditRef.id);
-      })
-      .catch(function (error) {
-        console.error("Błąd przy dodawaniu kredytu: ", error);
-      });
-    // dodać tutaj czyszczenie pól po dodaniu kredytu
+    addDoc(creditsRef, credit).then(function (creditRef) {
+      createInstallmentsForNewCredit(credit, creditRef.id);
+    });
+    setTitle("");
+    setDescription("");
+    setInstallmentsCount("");
+    setValue("");
+    setFirstPaymentDate("");
   };
 
   const onSave = (credit) => {
+    console.log(credit.id);
+    console.log(creditsRef);
     const creditDoc = doc(creditsRef, credit.id);
     updateDoc(creditDoc, {
       title: title,
@@ -65,7 +65,6 @@ export default function CreditCreate({
       installmentsCount: Number(installmentsCount),
       installmentsUnpaid: Number(installmentsCount - installmentsPaid),
       value: Number(value),
-      //unpaidValue: Number(value), <--- tutaj się zastanowic
     });
     setEditModeActive(false);
   };
@@ -78,7 +77,7 @@ export default function CreditCreate({
     for (let i = 0; i < credit.installmentsCount; i++) {
       const installment = {
         number: Number(i + 1),
-        paymentDeadline: firstPaymentDate, // tutaj trzeba będzie przerobić na instancję klase Date / setDate, setMonth
+        paymentDeadline: firstPaymentDate,
         value: credit.value / installmentsCount,
         payDate: "",
         paidValue: 0,
@@ -94,16 +93,19 @@ export default function CreditCreate({
       label: "Dodaj kredyt",
       key: "addCredit",
       editModeStatus: false,
+      onClick: () => addCredit(),
     },
     {
       label: "Zapisz",
       key: "saveItem",
       editModeStatus: true,
+      onClick: () => onSave(selectedCredit),
     },
     {
       label: "Anuluj",
       key: "cancel",
       editModeStatus: true,
+      onClick: () => setEditModeActive(!editModeActive),
     },
   ];
   return (
@@ -137,30 +139,9 @@ export default function CreditCreate({
           ></input>
         )}
         {actions.map((action) => {
-          if (
-            action.key === "addCredit" &&
-            action.editModeStatus === editModeActive
-          ) {
+          if (action.editModeStatus === editModeActive) {
             return (
-              <button key={action.key} onClick={() => addCredit()}>
-                {action.label}
-              </button>
-            );
-          } else if (
-            action.key === "saveItem" &&
-            action.editModeStatus === editModeActive
-          ) {
-            return (
-              <button key={action.key} onClick={() => onSave(selectedCredit)}>
-                {action.label}
-              </button>
-            );
-          } else if (
-            action.key === "cancel" &&
-            action.editModeStatus === editModeActive
-          ) {
-            return (
-              <button key={action.key} onClick={() => onSave(selectedCredit)}>
+              <button key={action.key} onClick={action.onClick}>
                 {action.label}
               </button>
             );

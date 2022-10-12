@@ -101,7 +101,10 @@ export default function TemplateCreate({
             action.editModeStatus === editModeActive
           ) {
             return (
-              <button key={action.key} onClick={() => onSave(selectedItem)}>
+              <button
+                key={action.key}
+                onClick={() => setEditModeActive(!editModeActive)}
+              >
                 {action.label}
               </button>
             );

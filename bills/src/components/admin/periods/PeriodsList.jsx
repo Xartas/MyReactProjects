@@ -8,7 +8,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { sortPeriodsByMonth } from "../../../utils/features";
+import { periodsConstants } from "../../../utils/utils";
 import DataTableView from "./../../../components/common/DataTableView";
 import PeriodsCreate from "./PeriodsCreate";
 
@@ -31,7 +31,7 @@ export default function PeriodsList() {
         id: doc.id,
         ...doc.data(),
       }));
-      setBillingPeriods(sortPeriodsByMonth(periods));
+      setBillingPeriods(periods.sort((a, b) => (a.month > b.month ? 1 : -1)));
     });
   }, [selectedYear]);
 
@@ -60,13 +60,6 @@ export default function PeriodsList() {
     });
   };
 
-  const headers = [
-    { name: "ID Okresu", key: "billingPeriod" },
-    { name: "Rok", key: "year" },
-    { name: "Miesiąc", key: "month" },
-    { name: "Nazwa", key: "name" },
-    { name: "Akcje", key: "actions" },
-  ];
   const actions = [
     {
       label: "Import płatności",
@@ -80,9 +73,8 @@ export default function PeriodsList() {
         setSelectedYear={setSelectedYear}
         billingPeriods={billingPeriods}
       />
-
       <DataTableView
-        headers={headers}
+        headers={periodsConstants.tableHeaders}
         data={billingPeriods}
         actions={actions}
       />

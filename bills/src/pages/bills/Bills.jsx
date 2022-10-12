@@ -15,7 +15,7 @@ import { billsConstants } from "../../utils/utils";
 import DataTableView from "../../components/common/DataTableView";
 import AddBill from "../../components/admin/templates/TemplateCreate";
 
-function Bills() {
+export default function Bills() {
   const [billingYears, setBillingYears] = useState([]);
   const [activeYear, setActiveYear] = useState("");
   const [billingPeriods, setBillingPeriods] = useState([]);
@@ -157,5 +157,3 @@ function Bills() {
     </React.Fragment>
   );
 }
-
-export default Bills;

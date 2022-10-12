@@ -61,13 +61,16 @@ export default function InstallmentsList({ credit, setUpdatedCredit }) {
   };
 
   const onSave = (newPayDate, newPaidValue) => {
+    console.log("New Pay Date w onSave: " + newPayDate);
+    console.log("New Paid Value w onSave: " + newPaidValue);
     const installmentDoc = doc(installmentsRef, selectedInstallment.id);
     updateDoc(installmentDoc, {
       payDate: newPayDate,
-      paidValue: newPaidValue,
-      unpaidValue: selectedInstallment.value - newPaidValue,
+      paidValue: Number(newPaidValue),
+      unpaidValue: Number(selectedInstallment.value - newPaidValue),
       fullyPaid: isFullyPaid(newPaidValue),
     });
+
     recountCredit();
     setEditModeActive(false);
   };
@@ -84,9 +87,10 @@ export default function InstallmentsList({ credit, setUpdatedCredit }) {
       installments.map((installment) => {
         unpaidSum = unpaidSum + installment.unpaidValue;
         installment.fullyPaid
-          ? (installmentsPaid = +1)
-          : (installmentsPaid = +0);
+          ? (installmentsPaid = installmentsPaid + 1)
+          : (installmentsPaid = installmentsPaid + 0);
       });
+      console.log(unpaidSum + " | " + installmentsPaid);
       updateCredit(unpaidSum, installmentsPaid);
     });
   };
@@ -94,9 +98,9 @@ export default function InstallmentsList({ credit, setUpdatedCredit }) {
   const updateCredit = (unpaidSum, installmentsPaid) => {
     let updatedCredit = {
       ...credit,
-      unpaidValue: unpaidSum,
-      installmentsPaid: installmentsPaid,
-      installmentsUnpaid: credit.installmentsCount - installmentsPaid,
+      unpaidValue: Number(unpaidSum),
+      installmentsPaid: Number(installmentsPaid),
+      installmentsUnpaid: Number(credit.installmentsCount - installmentsPaid),
     };
     setUpdatedCredit(updatedCredit);
   };

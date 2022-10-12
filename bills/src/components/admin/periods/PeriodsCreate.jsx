@@ -10,7 +10,6 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { months } from "../../../utils/utils";
-import { sortYears } from "../../../utils/features";
 
 export default function PeriodsCreate({ setSelectedYear, billingPeriods }) {
   const [billingYears, setBillingYears] = useState([]);
@@ -28,7 +27,7 @@ export default function PeriodsCreate({ setSelectedYear, billingPeriods }) {
         id: doc.id,
         ...doc.data(),
       }));
-      setBillingYears(sortYears(years));
+      setBillingYears(years.sort((a, b) => (a.year > b.year ? 1 : -1)));
     });
   }, []);
 
