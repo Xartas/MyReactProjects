@@ -49,89 +49,100 @@ export const months = [
   },
 ];
 
-export const billingPeriodsList = [
-  {
-    id: "202201",
-    year: 2022,
-    month: "01",
-    name: "Styczeń",
-    isActive: true,
+//------------------------- STAŁE DLA RACHUNKÓW -----------------------------
+export const billsConstants = {
+  tableHeaders: [
+    { name: "Nazwa", key: "name" },
+    { name: "Kontrahent", key: "contractor" },
+    { name: "Kwota", key: "amount" },
+    { name: "Opłacony", key: "isPaid" },
+    { name: "Akcje", key: "actions" },
+  ],
+  addBillActions: [
+    {
+      label: "Dodaj płatność",
+      key: "addItem",
+      editModeStatus: false,
+    },
+    {
+      label: "Zapisz",
+      key: "saveItem",
+      editModeStatus: true,
+    },
+    {
+      label: "Anuluj",
+      key: "cancel",
+      editModeStatus: true,
+    },
+  ],
+  newBillPlaceholders: {
+    name: "Nazwa płatności",
+    contractor: "Kontrahent",
+    amount: "Kwota",
   },
-  {
-    id: "202202",
-    year: 2022,
-    month: "02",
-    name: "Luty",
-    isActive: true,
+};
+
+//------------------------- STAŁE DLA KREDYTÓW  -----------------------------
+export const creditsConstants = {
+  tableHeaders: [
+    { name: "Tytuł", key: "title" },
+    { name: "Akcje", key: "actions" },
+  ],
+};
+
+//------------------------- STAŁE DLA RAT -----------------------------
+export const installmentsConstants = {
+  tableHeaders: [
+    { name: "Numer raty", key: "number" },
+    { name: "Data wymagalności", key: "paymentDeadline" },
+    { name: "Kwota raty", key: "value" },
+    { name: "Data ostatniej płatności", key: "payDate" },
+    { name: "Kwota opłacona", key: "paidValue" },
+    { name: "Pozostało do spłaty", key: "unpaidValue" },
+    { name: "W pełni opłacona?", key: "fullyPaid" },
+    { name: "Akcje", key: "actions" },
+  ],
+};
+
+//------------------ STAŁE DLA OKRESÓW ROZLICZENIOWYCH ---------------------
+export const periodsConstants = {
+  tableHeaders: [
+    { name: "ID Okresu", key: "billingPeriod" },
+    { name: "Rok", key: "year" },
+    { name: "Miesiąc", key: "month" },
+    { name: "Nazwa", key: "name" },
+    { name: "Akcje", key: "actions" },
+  ],
+};
+
+//------------------ STAŁE DLA SZABLONÓW ---------------------
+export const templatesConstants = {
+  tableHeaders: [
+    { name: "Nazwa", key: "name" },
+    { name: "Kontrahent", key: "contractor" },
+    { name: "Kwota", key: "amount" },
+    { name: "Akcje", key: "actions" },
+  ],
+  actions: [
+    {
+      label: "Dodaj szablon",
+      key: "addItem",
+      editModeStatus: false,
+    },
+    {
+      label: "Zapisz",
+      key: "saveItem",
+      editModeStatus: true,
+    },
+    {
+      label: "Anuluj",
+      key: "cancel",
+      editModeStatus: true,
+    },
+  ],
+  newTemplatePlaceholders: {
+    name: "Nazwa szablonu",
+    contractor: "Kontrahent",
+    amount: "Kwota",
   },
-  {
-    id: "202203",
-    year: 2022,
-    month: "03",
-    name: "Marzec",
-    isActive: true,
-  },
-  {
-    id: "202204",
-    year: 2022,
-    month: "04",
-    name: "Kwiecień",
-    isActive: true,
-  },
-  {
-    id: "202205",
-    year: 2022,
-    month: "05",
-    name: "Maj",
-    isActive: true,
-  },
-  {
-    id: "202206",
-    year: 2022,
-    month: "06",
-    name: "Czerwiec",
-    isActive: true,
-  },
-  {
-    id: "202207",
-    year: 2022,
-    month: "07",
-    name: "Lipiec",
-    isActive: false,
-  },
-  {
-    id: "202208",
-    year: 2022,
-    month: "08",
-    name: "Sierpień",
-    isActive: false,
-  },
-  {
-    id: "202209",
-    year: 2022,
-    month: "09",
-    name: "Wrzesień",
-    isActive: false,
-  },
-  {
-    id: "202210",
-    year: 2022,
-    month: "10",
-    name: "Październik",
-    isActive: false,
-  },
-  {
-    id: "202211",
-    year: 2022,
-    month: "11",
-    name: "Listopad",
-    isActive: false,
-  },
-  {
-    id: "202212",
-    year: 2022,
-    month: "12",
-    name: "Grudzień",
-    isActive: false,
-  },
-];
+};

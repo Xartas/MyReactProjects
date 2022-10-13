@@ -1,17 +1,117 @@
-*{
-    margin: 0;
-    padding: 0;
-    
-        body{
-            background-color: #222;
-            color: #ccc;
-            font-size: 20px;
-            padding: 10px;
-        
-            .container{
-                padding-top: 10px;        
-            }
-        
-        }
-    
+* {
+  margin: 0;
+  padding: 0;
+
+  body {
+    background-color: #222;
+    color: #ccc;
+    font-size: 20px;
+    padding: 10px;
+
+    h3 {
+      color: #00897b;
+      line-height: 40px;
     }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      padding-top: 10px;
+
+      .creatingCreditContainer {
+        border: solid 1px #00897b;
+        padding: 10px;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        line-height: 20px;
+
+        input {
+          font-size: 15px;
+          margin-right: 10px;
+        }
+
+        button {
+          padding: 3px;
+          font-size: 12px;
+          font-weight: 600;
+          margin-right: 10px;
+        }
+      }
+
+      .creditContainer {
+        display: flex;
+        justify-items: baseline;
+        width: 98vw;
+        flex-direction: row;
+        line-height: 20px;
+        margin-top: 10px;
+
+        .creditDetails {
+          border: solid 1px #00897b;
+          padding: 10px;
+          width: 50%;
+          height: fit-content;
+          margin-left: 10px;
+          line-height: 30px;
+        }
+
+        .creditList {
+          border: solid 1px #00897b;
+          padding: 10px;
+          width: 50%;
+
+          .creditListItem {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+          }
+        }
+      }
+
+      .installmentsContainer {
+        width: 96vw;
+        height: fit-content;
+        border: solid 1px #00897b;
+        padding: 10px;
+        margin-top: 10px;
+        display: flex;
+        line-height: 20px;
+
+        .editInstallment {
+          border: solid 1px #00897b;
+          padding: 10px;
+          margin-top: 10px;
+          display: flex;
+          align-items: center;
+          line-height: 20px;
+  
+          input {
+            font-size: 15px;
+            margin-right: 10px;
+          }
+  
+          button {
+            padding: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 10px;
+          }
+        }
+
+        .paginationButtons {
+          display: flex;
+          margin-top: 10px;
+          justify-content: center;
+
+          button {
+            padding: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+  }
+}
