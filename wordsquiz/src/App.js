@@ -1,28 +1,43 @@
+import { FirebaseProvider } from "./components/contexts/FirebaseContext";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Navbar from "./components/navbar/Navbar";
+import Login from "./components/pages/Login";
+import Home from "./components/pages/Home";
+import Dictionary from "./components/pages/Dictionary";
+import AuthWrapper from "./components/common/AuthWrapper";
 import Container from "@mui/material/Container";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import { Grid } from "@mui/material";
-import Button from "@mui/material/Button";
 
 export default function App() {
   return (
-    <Container>
-      <Box>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item xs={3}>
-            <TextField id="outlined-basic" label="Test 1" variant="outlined" />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField id="outlined-basic" label="test 2" variant="outlined" />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField id="outlined-basic" label="test 3" variant="outlined" />
-          </Grid>
-          <Grid item xs={3}>
-            <Button variant="contained">OK</Button>
-          </Grid>
-        </Grid>
-      </Box>
-    </Container>
+    <FirebaseProvider>
+      <BrowserRouter>
+        <Container>
+          <Navbar />
+        </Container>
+        <Container>
+          <Routes>
+            <Route path="/login" element={<Login />}></Route>
+            <Route
+              path="/"
+              index
+              element={
+                <AuthWrapper>
+                  <Home />
+                </AuthWrapper>
+              }
+            ></Route>
+            <Route
+              path="/dictionary"
+              index
+              element={
+                <AuthWrapper>
+                  <Dictionary />
+                </AuthWrapper>
+              }
+            ></Route>
+          </Routes>
+        </Container>
+      </BrowserRouter>
+    </FirebaseProvider>
   );
 }
