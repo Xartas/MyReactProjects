@@ -1,12 +1,14 @@
-import { Typography, Box } from "@mui/material";
 import React from "react";
 import Navbar from "../navbar/Navbar";
+import WordsList from "../words/WordsList";
+import WordAdd from "./../words/WordAdd";
 
 export default function Dictionary() {
   return (
     <>
       <Navbar />
-      <Typography>TUTAJ BĘDZIE SŁOWNIK</Typography>
+      <WordAdd />
+      <WordsList />
     </>
   );
 }
