@@ -24,8 +24,6 @@ export default function Login() {
       .catch((e) => setErrorMsg(e.code));
   };
 
-  console.log(errorMsg);
-
   return (
     <Container maxWidth="xs">
       <Grid

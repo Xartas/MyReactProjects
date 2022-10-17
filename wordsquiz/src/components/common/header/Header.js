@@ -1,5 +1,4 @@
-import { AppBar, Toolbar, Typography } from "@mui/material";
-import { Container } from "@mui/system";
+import { AppBar, Toolbar, Typography, Box, Container } from "@mui/material";
 import React from "react";
 import { useFirebase } from "../../contexts/FirebaseContext";
 import SignOutButton from "./../../common/SignOutButton";
@@ -8,11 +7,14 @@ export default function Header() {
   const firebase = useFirebase();
 
   return (
-    <AppBar position="fixed">
-      <Toolbar sx={{ justifyContent: "space-between" }}>
-        <Typography noWrap>Witaj {firebase.user.email}!</Typography>
-        <SignOutButton />
-      </Toolbar>
+    <AppBar>
+      <Container>
+        <Toolbar>
+          <Typography noWrap>Witaj {firebase.user.email}!</Typography>
+          <Box flexGrow={1} />
+          <SignOutButton />
+        </Toolbar>
+      </Container>
     </AppBar>
   );
 }
