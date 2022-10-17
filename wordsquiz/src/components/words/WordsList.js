@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Stack, Typography } from "@mui/material";
-import { collection, onSnapshot } from "firebase/firestore";
+import {
+  Button,
+  FormControlLabel,
+  Grid,
+  Container,
+  Switch,
+  Typography,
+} from "@mui/material";
 import { useFirebase } from "../contexts/FirebaseContext";
-import { Container } from "@mui/system";
+import { collection, onSnapshot } from "firebase/firestore";
+import EditIcon from "@mui/icons-material/Edit";
+import WordAdd from "./WordAdd";
+
+let wordsList = [];
 
 export default function WordsList() {
   const [words, setWords] = useState([]);
+  const [editMode, setEditMode] = useState(true);
+  const [word, setWord] = useState();
   const firebase = useFirebase();
 
   useEffect(() => {
@@ -19,19 +31,56 @@ export default function WordsList() {
     });
   }, []);
 
+  useEffect(() => {
+    wordsList = words;
+  }, [words]);
+
   return (
     <>
-      <Container>
-        <Stack direction="row" spacing={2}>
-          {words.map((word) => {
-            return (
-              <Typography>
-                {word.englishWord} - {word.translate}
-              </Typography>
-            );
-          })}
-        </Stack>
+      <Container sx={{ marginTop: "20px" }}>
+        <WordAdd
+          editedWord={word}
+          editMode={editMode}
+          setEditMode={setEditMode}
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              checked={editMode}
+              onChange={() => setEditMode(!editMode)}
+              color="secondary"
+            />
+          }
+          label="Edit mode on/off"
+        />
+        <Grid container spacing={1}>
+          {words.map((word) => (
+            <Grid key={word.id} item xs={6}>
+              <Grid container alignItems="center">
+                <Grid key={word.id + "_en"} item xs={!editMode ? 6 : 5}>
+                  <Typography>{word.englishWord}</Typography>
+                </Grid>
+                <Grid key={word.id + "_pl"} item xs={!editMode ? 6 : 5}>
+                  <Typography>{word.translate}</Typography>
+                </Grid>
+                {editMode && (
+                  <Button
+                    variant="contained"
+                    xs={2}
+                    onClick={() => setWord(word)}
+                  >
+                    <EditIcon fontSize="small" />
+                  </Button>
+                )}
+              </Grid>
+            </Grid>
+          ))}
+        </Grid>
       </Container>
     </>
   );
 }
+
+export const getWordsList = () => {
+  return wordsList;
+};

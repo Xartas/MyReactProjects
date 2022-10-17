@@ -20,7 +20,7 @@ export default function Login() {
 
   const logIn = () => {
     signInWithEmailAndPassword(firebase.auth, email, password)
-      .then(() => navigate("/"))
+      .then(() => navigate("/dictionary"))
       .catch((e) => setErrorMsg(e.code));
   };
 

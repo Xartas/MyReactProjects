@@ -19,19 +19,19 @@ export default function Navbar() {
           sx={{ paddingBottom: "20px" }}
         >
           <Tab
-            icon={<AbcOutlinedIcon fontSize="large" />}
-            label={"Quiz"}
-            value="/"
-            selected={true}
-            component={Link}
-            to="/"
-          ></Tab>
-          <Tab
             icon={<MenuBookOutlinedIcon fontSize="large" />}
             label={"Słownik"}
             value="/dictionary"
             component={Link}
             to="/dictionary"
+          ></Tab>
+          <Tab
+            icon={<AbcOutlinedIcon fontSize="large" />}
+            label={"Quiz"}
+            value="/quiz"
+            selected={true}
+            component={Link}
+            to="/quiz"
           ></Tab>
         </Tabs>
         <Divider />
