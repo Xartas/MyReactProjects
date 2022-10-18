@@ -20,8 +20,8 @@ export default function WordAdd({ editedWord, editMode, setEditMode }) {
   const addNewWord = () => {
     const wordsRef = collection(firebase.firestore, "words/");
     const newWord = {
-      englishWord: englishWord,
-      translate: translate,
+      englishWord: englishWord.toLowerCase(),
+      translate: translate.toLowerCase(),
     };
     setWord(newWord);
     addDoc(wordsRef, newWord);
@@ -31,8 +31,8 @@ export default function WordAdd({ editedWord, editMode, setEditMode }) {
     const wordsRef = collection(firebase.firestore, "words/");
     const wordDoc = doc(wordsRef, word.id);
     updateDoc(wordDoc, {
-      englishWord: englishWord,
-      translate: translate,
+      englishWord: englishWord.toLowerCase(),
+      translate: translate.toLowerCase(),
     });
   };
 

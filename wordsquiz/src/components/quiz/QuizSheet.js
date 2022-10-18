@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Grid, Container, Typography, TextField, Button } from "@mui/material";
+import { addDoc, collection, doc } from "firebase/firestore";
+import { useFirebase } from "../contexts/FirebaseContext";
 
-export default function QuizSheet({ wordsToQuiz, setQuizActive }) {
+export default function QuizSheet({
+  wordsToQuiz,
+  setQuizActive,
+  setQuizFinished,
+  setQuizSheetData,
+}) {
   const [quizSheet, setQuizSheet] = useState([]);
+  const [correctAnswers, setCorrectAnswers] = useState(0);
+  const firebase = useFirebase();
 
   useEffect(() => {
     let allWords = [];
@@ -22,6 +31,50 @@ export default function QuizSheet({ wordsToQuiz, setQuizActive }) {
       ...wordWithAnswer,
     };
     setQuizSheet(allWords);
+  };
+
+  const onEndQuiz = () => {
+    const sheetsRef = collection(firebase.firestore, "sheets/");
+    const result = calculateResult();
+    let currentdate = new Date();
+    let sysdate =
+      currentdate.getDate() +
+      "/" +
+      (currentdate.getMonth() + 1) +
+      "/" +
+      currentdate.getFullYear() +
+      " @ " +
+      currentdate.getHours() +
+      ":" +
+      currentdate.getMinutes() +
+      ":" +
+      currentdate.getSeconds();
+    let newSheetData = {
+      date: sysdate,
+      wordsCount: quizSheet.length,
+      correctAnswers: result,
+    };
+    addDoc(sheetsRef, newSheetData).then((sheetPromise) => {
+      let wordsRef = collection(
+        firebase.firestore,
+        "sheets/" + sheetPromise.id + "/words/"
+      );
+      quizSheet.map((word) => addDoc(wordsRef, word));
+    });
+    setQuizActive(false);
+    setQuizFinished(true);
+    setQuizSheetData(newSheetData);
+  };
+
+  const calculateResult = () => {
+    let result = 0;
+    quizSheet.forEach((word) => {
+      if (word.translate === word.answer) {
+        result++;
+      }
+    });
+    setCorrectAnswers(result);
+    return result;
   };
 
   return (
@@ -48,7 +101,7 @@ export default function QuizSheet({ wordsToQuiz, setQuizActive }) {
           variant="contained"
           color="secondary"
           spacing={2}
-          onClick={() => setQuizActive(false)}
+          onClick={() => onEndQuiz()}
         >
           {"Zakończ quiz".toUpperCase()}
         </Button>

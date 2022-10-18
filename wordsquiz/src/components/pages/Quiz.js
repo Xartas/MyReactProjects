@@ -13,12 +13,15 @@ import Navbar from "../navbar/Navbar";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { useFirebase } from "../contexts/FirebaseContext";
 import QuizSheet from "../quiz/QuizSheet";
+import ResultView from "../common/ResultView";
 
 export default function Quiz() {
   const [quizWordsLimit, setQuizWordsLimit] = useState(2);
   const [words, setWords] = useState([]);
   const [wordsSelectedToQuiz, setWordsSelectedToQuiz] = useState([]);
   const [quizActive, setQuizActive] = useState(false);
+  const [quizFinished, setQuizFinished] = useState(false);
+  const [quizSheetData, setQuizSheetData] = useState([]);
   const firebase = useFirebase();
 
   useEffect(() => {
@@ -36,7 +39,7 @@ export default function Quiz() {
     let fullWordsList = words;
     let selectedWords = [];
     for (let i = 0; i < quizWordsLimit; i++) {
-      let randomWordPosition = Math.floor(Math.random() * words.length);
+      let randomWordPosition = Math.floor(Math.random() * fullWordsList.length);
       const randomWord = fullWordsList[randomWordPosition];
       selectedWords = selectedWords.concat(randomWord);
       fullWordsList = fullWordsList.filter((word) => word.id !== randomWord.id);
@@ -85,6 +88,7 @@ export default function Quiz() {
                 startIcon={<PlayArrowIcon />}
                 color="secondary"
                 disabled={quizActive}
+                sx={{ marginLeft: "8px" }}
               >
                 {"Rozpocznij quiz".toUpperCase()}
               </Button>
@@ -96,7 +100,12 @@ export default function Quiz() {
         <QuizSheet
           wordsToQuiz={wordsSelectedToQuiz}
           setQuizActive={setQuizActive}
+          setQuizFinished={setQuizFinished}
+          setQuizSheetData={setQuizSheetData}
         />
+      )}
+      {!quizActive && quizFinished && (
+        <ResultView quizSheetData={quizSheetData} />
       )}
     </>
   );

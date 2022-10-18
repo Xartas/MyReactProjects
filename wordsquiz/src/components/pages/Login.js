@@ -34,7 +34,7 @@ export default function Login() {
         alignItems="center"
       >
         <Grid item>
-          <Typography variant="h3" marginBottom={2}>
+          <Typography variant="h3" marginBottom={2} color="primary">
             WORDS QUIZ
           </Typography>
           <Stack spacing={2} direction="column">
