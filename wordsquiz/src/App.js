@@ -1,8 +1,8 @@
 import { FirebaseProvider } from "./components/contexts/FirebaseContext";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "./components/pages/Login";
-import Quiz from "./components/pages/Quiz";
-import Dictionary from "./components/pages/Dictionary";
+import Login from "./components/routes/Login";
+import Quiz from "./components/routes/Quiz";
+import Dictionary from "./components/routes/Dictionary";
 import AuthWrapper from "./components/common/AuthWrapper";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material";
@@ -33,7 +33,7 @@ export default function App() {
             <Routes>
               <Route path="/login" element={<Login />}></Route>
               <Route
-                path="/quiz"
+                path="/"
                 index
                 element={
                   <AuthWrapper>

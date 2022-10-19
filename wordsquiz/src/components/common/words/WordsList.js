@@ -7,12 +7,10 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
-import { useFirebase } from "../contexts/FirebaseContext";
+import { useFirebase } from "../../contexts/FirebaseContext";
 import { collection, onSnapshot } from "firebase/firestore";
 import EditIcon from "@mui/icons-material/Edit";
 import WordAdd from "./WordAdd";
-
-let wordsList = [];
 
 export default function WordsList() {
   const [words, setWords] = useState([]);
@@ -29,11 +27,8 @@ export default function WordsList() {
       }));
       setWords(words);
     });
+    // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    wordsList = words;
-  }, [words]);
 
   return (
     <>
@@ -80,7 +75,3 @@ export default function WordsList() {
     </>
   );
 }
-
-export const getWordsList = () => {
-  return wordsList;
-};

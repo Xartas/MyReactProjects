@@ -1,10 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Stack, Container, Typography } from "@mui/material";
 
 export default function ResultView({ quizSheetData }) {
-  useEffect(() => {}, [quizSheetData]);
-
-  console.log(quizSheetData);
   return (
     <Container>
       <Stack direction="column" spacing={1} sx={{ alignItems: "center" }}>

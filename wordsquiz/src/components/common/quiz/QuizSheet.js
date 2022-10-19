@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Container, Typography, TextField, Button } from "@mui/material";
-import { addDoc, collection, doc } from "firebase/firestore";
-import { useFirebase } from "../contexts/FirebaseContext";
+import { Grid, Container, Typography, Button } from "@mui/material";
+import { addDoc, collection } from "firebase/firestore";
+import { useFirebase } from "../../contexts/FirebaseContext";
+import CustomTextField from "../CustomTextField";
 
 export default function QuizSheet({
   wordsToQuiz,
@@ -10,7 +11,7 @@ export default function QuizSheet({
   setQuizSheetData,
 }) {
   const [quizSheet, setQuizSheet] = useState([]);
-  const [correctAnswers, setCorrectAnswers] = useState(0);
+  const [answer, setAnswer] = useState(""); // ten stan wg mnie jest niepotrzebny - do potwierdzenia.
   const firebase = useFirebase();
 
   useEffect(() => {
@@ -22,6 +23,7 @@ export default function QuizSheet({
   }, [wordsToQuiz]);
 
   const onChangeAnswer = (event, word) => {
+    setAnswer(event.target.value); // bez tej linijki wywala mi się appka - why? Nie można zmieniać danych w arkuszu.
     let wordWithAnswer = {
       ...word,
       answer: event.target.value,
@@ -73,25 +75,30 @@ export default function QuizSheet({
         result++;
       }
     });
-    setCorrectAnswers(result);
     return result;
   };
 
+  console.log("quizSheet");
+  console.log(quizSheet);
+  console.log(wordsToQuiz);
   return (
     <>
       <Container sx={{ marginTop: "20px" }}>
         <Grid container spacing={1}>
-          {wordsToQuiz.map((word) => (
+          {quizSheet.map((word) => (
             <Grid key={word.id} item xs={6}>
               <Grid container alignItems="center">
                 <Grid key={word.id + "_en"} item xs={6}>
                   <Typography>{word.englishWord}</Typography>
                 </Grid>
                 <Grid key={word.id + "_pl"} item xs={6}>
-                  <TextField
+                  <CustomTextField
+                    label="answer"
                     variant="outlined"
+                    required={true}
+                    editedValue={word.answer}
                     onChange={(e) => onChangeAnswer(e, word)}
-                  ></TextField>
+                  />
                 </Grid>
               </Grid>
             </Grid>
@@ -105,14 +112,14 @@ export default function QuizSheet({
         >
           {"Zakończ quiz".toUpperCase()}
         </Button>
-        {/* <Button
+        <Button
           variant="contained"
           color="secondary"
           spacing={2}
           onClick={() => console.table(quizSheet)}
         >
           {"Pokaż arkusz".toUpperCase()}
-        </Button> */}
+        </Button>
       </Container>
     </>
   );

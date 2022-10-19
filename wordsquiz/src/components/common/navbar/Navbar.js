@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "./../common/header/Header";
+import Header from "../header/Header";
 import AbcOutlinedIcon from "@mui/icons-material/AbcOutlined";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 import { Container, Divider, Tab, Tabs, Toolbar } from "@mui/material";
@@ -28,10 +28,10 @@ export default function Navbar() {
           <Tab
             icon={<AbcOutlinedIcon fontSize="large" />}
             label={"Quiz"}
-            value="/quiz"
+            value="/"
             selected={true}
             component={Link}
-            to="/quiz"
+            to="/"
           ></Tab>
         </Tabs>
         <Divider />

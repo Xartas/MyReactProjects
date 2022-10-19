@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Button, Container, TextField, Stack } from "@mui/material";
-import { useFirebase } from "../contexts/FirebaseContext";
+import { Button, Container, Stack } from "@mui/material";
+import { useFirebase } from "../../contexts/FirebaseContext";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import CustomTextField from "../CustomTextField";
 
 export default function WordAdd({ editedWord, editMode, setEditMode }) {
   const [englishWord, setEnglishWord] = useState("");
@@ -25,6 +26,8 @@ export default function WordAdd({ editedWord, editMode, setEditMode }) {
     };
     setWord(newWord);
     addDoc(wordsRef, newWord);
+    setEnglishWord("");
+    setTranslate("");
   };
 
   const updateWord = () => {
@@ -34,21 +37,32 @@ export default function WordAdd({ editedWord, editMode, setEditMode }) {
       englishWord: englishWord.toLowerCase(),
       translate: translate.toLowerCase(),
     });
+    setEnglishWord("");
+    setTranslate("");
+    setWord(undefined);
+  };
+
+  const onCancel = () => {
+    setEnglishWord("");
+    setTranslate("");
+    setEditMode(!editMode);
   };
 
   return (
     <Container sx={{ marginTop: "20px" }}>
       <Stack direction="row" spacing={2}>
-        <TextField
+        <CustomTextField
           label="English word"
           variant="outlined"
-          value={englishWord}
+          required={true}
+          editedValue={englishWord}
           onChange={(e) => setEnglishWord(e.target.value)}
         />
-        <TextField
+        <CustomTextField
           label="Translate"
           variant="outlined"
-          value={translate}
+          required={true}
+          editedValue={translate}
           onChange={(e) => setTranslate(e.target.value)}
         />
         <Button
@@ -61,13 +75,13 @@ export default function WordAdd({ editedWord, editMode, setEditMode }) {
         <Button
           variant="contained"
           onClick={() => updateWord()}
-          disabled={!editMode}
+          disabled={!editMode || (editMode && !word)}
         >
           Zapisz
         </Button>
         <Button
           variant="contained"
-          onClick={() => setEditMode(!editMode)}
+          onClick={() => onCancel()}
           disabled={!editMode}
         >
           Anuluj

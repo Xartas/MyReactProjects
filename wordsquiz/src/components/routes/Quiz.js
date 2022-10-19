@@ -9,11 +9,11 @@ import {
   Button,
 } from "@mui/material";
 import { collection, onSnapshot } from "firebase/firestore";
-import Navbar from "../navbar/Navbar";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { useFirebase } from "../contexts/FirebaseContext";
-import QuizSheet from "../quiz/QuizSheet";
+import Navbar from "../common/navbar/Navbar";
 import ResultView from "../common/ResultView";
+import QuizSheet from "../common/quiz/QuizSheet";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 export default function Quiz() {
   const [quizWordsLimit, setQuizWordsLimit] = useState(2);
@@ -33,12 +33,17 @@ export default function Quiz() {
       }));
       setWords(words);
     });
+    // eslint-disable-next-line
   }, []);
 
   const startQuiz = () => {
     let fullWordsList = words;
     let selectedWords = [];
-    for (let i = 0; i < quizWordsLimit; i++) {
+    let wordsCount =
+      fullWordsList.length < quizWordsLimit
+        ? fullWordsList.length
+        : quizWordsLimit;
+    for (let i = 0; i < wordsCount; i++) {
       let randomWordPosition = Math.floor(Math.random() * fullWordsList.length);
       const randomWord = fullWordsList[randomWordPosition];
       selectedWords = selectedWords.concat(randomWord);
