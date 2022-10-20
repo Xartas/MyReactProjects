@@ -47,6 +47,7 @@ export default function WordsList() {
             />
           }
           label="Edit mode on/off"
+          sx={{ "@media print": { display: "none !important" } }}
         />
         <Grid container spacing={1}>
           {words.map((word) => (
@@ -63,6 +64,7 @@ export default function WordsList() {
                     variant="contained"
                     xs={2}
                     onClick={() => setWord(word)}
+                    sx={{ "@media print": { display: "none !important" } }}
                   >
                     <EditIcon fontSize="small" />
                   </Button>

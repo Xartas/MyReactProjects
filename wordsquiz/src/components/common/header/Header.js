@@ -8,7 +8,7 @@ export default function Header() {
 
   return (
     <AppBar>
-      <Container>
+      <Container sx={{ "@media print": { display: "none !important" } }}>
         <Toolbar>
           <Typography noWrap>Witaj {firebase.user.email}!</Typography>
           <Box flexGrow={1} />

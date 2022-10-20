@@ -3,6 +3,7 @@ import { Grid, Container, Typography, Button } from "@mui/material";
 import { addDoc, collection } from "firebase/firestore";
 import { useFirebase } from "../../contexts/FirebaseContext";
 import CustomTextField from "../CustomTextField";
+import StopIcon from "@mui/icons-material/Stop";
 
 export default function QuizSheet({
   wordsToQuiz,
@@ -78,9 +79,6 @@ export default function QuizSheet({
     return result;
   };
 
-  console.log("quizSheet");
-  console.log(quizSheet);
-  console.log(wordsToQuiz);
   return (
     <>
       <Container sx={{ marginTop: "20px" }}>
@@ -107,19 +105,21 @@ export default function QuizSheet({
         <Button
           variant="contained"
           color="secondary"
+          startIcon={<StopIcon />}
           spacing={2}
           onClick={() => onEndQuiz()}
         >
           {"Zakończ quiz".toUpperCase()}
         </Button>
-        <Button
+        {/* Poniższy przycis na potrzeby testowania poprawności aplikacji */}
+        {/* <Button
           variant="contained"
           color="secondary"
           spacing={2}
           onClick={() => console.table(quizSheet)}
         >
           {"Pokaż arkusz".toUpperCase()}
-        </Button>
+        </Button> */}
       </Container>
     </>
   );

@@ -10,7 +10,7 @@ export default function Navbar() {
   return (
     <>
       <Header />
-      <Container>
+      <Container sx={{ "@media print": { display: "none !important" } }}>
         <Toolbar />
         <Tabs
           value={location.pathname}

@@ -3,6 +3,7 @@ import { Button, Container, Stack } from "@mui/material";
 import { useFirebase } from "../../contexts/FirebaseContext";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import CustomTextField from "../CustomTextField";
+import { Print } from "@mui/icons-material";
 
 export default function WordAdd({ editedWord, editMode, setEditMode }) {
   const [englishWord, setEnglishWord] = useState("");
@@ -49,7 +50,12 @@ export default function WordAdd({ editedWord, editMode, setEditMode }) {
   };
 
   return (
-    <Container sx={{ marginTop: "20px" }}>
+    <Container
+      sx={{
+        marginTop: "20px",
+        "@media print ": { display: "none !important" },
+      }}
+    >
       <Stack direction="row" spacing={2}>
         <CustomTextField
           label="English word"
@@ -85,6 +91,9 @@ export default function WordAdd({ editedWord, editMode, setEditMode }) {
           disabled={!editMode}
         >
           Anuluj
+        </Button>
+        <Button onClick={() => window.print()}>
+          <Print variant="contained" />
         </Button>
       </Stack>
     </Container>
